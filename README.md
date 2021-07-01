@@ -1,17 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-<h1>shape.it</h1>
+<h1 align="center">
+  <img alt="shape.it" title="shape.it" src=".github/logo.png" />
+</h1>
 
 <h4 align='center'>🚧 Under construction 🚧</h4>
 
-## Getting Started
-
-First, run the development server:
+## How to run
 
 ```bash
-npm run dev
-# or
-yarn dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Clone this repository
+$ git clone https://github.com/viniciusoliveiras/worldtrip.git
+
+# Access the project folder on your terminal/cmd
+$ cd worldtrip
+
+# Install the dependencies
+$ yarn
+
+# Run the application
+$ yarn dev
+
+# Open http://localhost:3000 on your browser to see the app running
+
+```
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
