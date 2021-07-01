@@ -14,7 +14,7 @@
 
   --yellow: #eba417;
   --blue: #61dcfb;
-  --green: #04D361;
+  --green: #04d361;
 }
 
 @media (max-width: 1080px) {
@@ -27,6 +27,11 @@
   html {
     font-size: 87.5%;
   }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--title);
 }
 
 body,
