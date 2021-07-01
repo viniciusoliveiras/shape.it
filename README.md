@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 <h1>shape.it</h1>
 
-<h4 align='center'>🚧 Under onstruction 🚧</h4>
+<h4 align='center'>🚧 Under construction 🚧</h4>
 
 ## Getting Started
 
