@@ -1,8 +1,13 @@
+/* eslint-disable no-use-before-define */
+import React from 'react';
+
 import Head from 'next/head';
 import Image from 'next/image';
 
+import googleLogoImg from '../../public/images/google-logo.svg';
 import logoImg from '../../public/images/logo.svg';
 import weightliftingImg from '../../public/images/weightlifting.png';
+import { LoginButton } from '../components/LoginButton';
 import styles from '../styles/home.module.scss';
 
 export default function Home() {
@@ -18,7 +23,10 @@ export default function Home() {
 
           <h1>Salve e gerencie seus treinos com facilidade.</h1>
 
-          <button type="button">Login com o Google</button>
+          <LoginButton type="button">
+            <Image src={googleLogoImg} alt="G" />
+            Login com o Google
+          </LoginButton>
         </section>
 
         <Image src={weightliftingImg} alt="Levantamento de peso" />
