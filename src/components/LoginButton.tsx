@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { Flex } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -8,6 +9,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function LoginButton({ children, marginTop }: ButtonProps) {
+  const router = useRouter();
+
   return (
     <Flex
       as="button"
@@ -23,6 +26,7 @@ export function LoginButton({ children, marginTop }: ButtonProps) {
       _hover={{
         opacity: '0.8',
       }}
+      onClick={() => router.push('/workouts')}
     >
       {children}
     </Flex>
