@@ -1,48 +1,68 @@
 /* eslint-disable no-use-before-define */
-import { Box, Flex, Image, Text, Icon } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Image,
+  Text,
+  Icon,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 
 export function Header() {
   const router = useRouter();
+  const isMobile = useBreakpointValue({
+    base: true,
+    md: false,
+  });
 
   return (
     <Flex
-      mt={{ md: '4', lg: '4', xl: '12' }}
+      mt={{ base: '2', md: '4', xl: '12' }}
       mb="16"
-      mx={{ md: '8', lg: '12', xl: '24' }}
+      mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
       justifyContent="space-between"
       align="center"
     >
-      <Image
-        src="/images/logo.svg"
-        w={{ md: '72', lg: '80', xl: '96' }}
-        alt="shape.it"
-      />
+      {!isMobile && (
+        <Image
+          src="/images/logo.svg"
+          w={{ md: '72', lg: '80', xl: '96' }}
+          alt="shape.it"
+        />
+      )}
+
+      {isMobile && (
+        <Image src="/images/logo-mobile.svg" w="32" alt="shape.it" />
+      )}
 
       <Flex align="center">
-        <Box mr={{ md: '4', lg: '7' }}>
-          <Text
-            textAlign="right"
-            color="gray.50"
-            fontSize={{ md: 'lg', lg: 'xl', xl: '2xl' }}
-          >
-            Vinícius Oliveira
-          </Text>
-          <Text
-            textAlign="right"
-            color="gray.100"
-            fontSize={{ md: 'md', lg: 'lg', xl: 'xl' }}
-          >
-            vinitag190@gmail.com
-          </Text>
-        </Box>
+        {!isMobile && (
+          <Box mr={{ md: '4', lg: '7' }}>
+            <Text
+              textAlign="right"
+              color="gray.50"
+              fontSize={{ md: 'lg', lg: 'xl', xl: '2xl' }}
+            >
+              Vinícius Oliveira
+            </Text>
+            <Text
+              textAlign="right"
+              color="gray.100"
+              fontSize={{ md: 'md', lg: 'lg', xl: 'xl' }}
+            >
+              vinitag190@gmail.com
+            </Text>
+          </Box>
+        )}
+
         <Image
           src="https://lh3.googleusercontent.com/ogw/ADea4I7RID_IdqOzX8ljxTzPUj2kHiUYQqO9lsSO9rk5oHY=s83-c-mo"
           alt="Vinícius Oliveira"
           borderRadius="full"
-          boxSize={{ md: '14', lg: '16', xl: '20' }}
+          boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
         />
         <Box
           as="button"
@@ -58,7 +78,10 @@ export function Header() {
           }}
           onClick={() => router.push('/')}
         >
-          <Icon as={RiLogoutBoxRLine} fontSize={{ md: '2rem', xl: '2.5rem' }} />
+          <Icon
+            as={RiLogoutBoxRLine}
+            fontSize={{ base: '1.5rem', md: '2rem', xl: '2.5rem' }}
+          />
         </Box>
       </Flex>
     </Flex>
