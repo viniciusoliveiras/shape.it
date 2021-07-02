@@ -2,12 +2,26 @@ import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { Flex } from '@chakra-ui/react';
 
+import { useAuth } from '../hooks/useAuth';
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   marginTop?: string;
 }
 
 export function LoginButton({ children, marginTop }: ButtonProps) {
+  const { signInWithGoogle, user, signOut } = useAuth();
+
+  function handleLogin() {
+    if (!user) {
+      signInWithGoogle();
+    }
+
+    if (user) {
+      signOut();
+    }
+  }
+
   return (
     <Flex
       as="button"
@@ -23,6 +37,7 @@ export function LoginButton({ children, marginTop }: ButtonProps) {
       _hover={{
         opacity: '0.8',
       }}
+      onClick={handleLogin}
     >
       {children}
     </Flex>
