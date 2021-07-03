@@ -1,7 +1,6 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { Flex } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 
 import { useAuth } from '../hooks/useAuth';
 
@@ -11,7 +10,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function LoginButton({ children, marginTop }: ButtonProps) {
-<<<<<<< HEAD
   const { signInWithGoogle, user, signOut } = useAuth();
 
   function handleLogin() {
@@ -23,9 +21,6 @@ export function LoginButton({ children, marginTop }: ButtonProps) {
       signOut();
     }
   }
-=======
-  const router = useRouter();
->>>>>>> feature/header-component
 
   return (
     <Flex
@@ -42,11 +37,7 @@ export function LoginButton({ children, marginTop }: ButtonProps) {
       _hover={{
         opacity: '0.8',
       }}
-<<<<<<< HEAD
       onClick={handleLogin}
-=======
-      onClick={() => router.push('/workouts')}
->>>>>>> feature/header-component
     >
       {children}
     </Flex>
