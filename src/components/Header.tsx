@@ -11,12 +11,23 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 
+import { useAuth } from '../hooks/useAuth';
+
 export function Header() {
   const router = useRouter();
+  const { signOut, user } = useAuth();
   const isMobile = useBreakpointValue({
     base: true,
     md: false,
   });
+
+  let userExist;
+
+  async function handleLogout() {
+    signOut();
+
+    router.push('/');
+  }
 
   return (
     <Flex
@@ -39,31 +50,34 @@ export function Header() {
       )}
 
       <Flex align="center">
-        {!isMobile && (
+        {!isMobile && user && (
           <Box mr={{ md: '4', lg: '7' }}>
             <Text
               textAlign="right"
               color="gray.50"
               fontSize={{ md: 'lg', lg: 'xl', xl: '2xl' }}
             >
-              Vinícius Oliveira
+              {user?.name}
             </Text>
             <Text
               textAlign="right"
               color="gray.100"
               fontSize={{ md: 'md', lg: 'lg', xl: 'xl' }}
             >
-              vinitag190@gmail.com
+              {user?.email}
             </Text>
           </Box>
         )}
 
-        <Image
-          src="https://lh3.googleusercontent.com/ogw/ADea4I7RID_IdqOzX8ljxTzPUj2kHiUYQqO9lsSO9rk5oHY=s83-c-mo"
-          alt="Vinícius Oliveira"
-          borderRadius="full"
-          boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
-        />
+        {user && (
+          <Image
+            src={user?.avatar}
+            alt={user?.name}
+            borderRadius="full"
+            boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
+          />
+        )}
+
         <Box
           as="button"
           border="0"
@@ -76,7 +90,7 @@ export function Header() {
             opacity: '0.9',
             background: 'gray.700',
           }}
-          onClick={() => router.push('/')}
+          onClick={handleLogout}
         >
           <Icon
             as={RiLogoutBoxRLine}
