@@ -1,16 +1,11 @@
-/* eslint-disable no-use-before-define */
-import React from 'react';
-
-import { Flex, Box, Text } from '@chakra-ui/react';
+import { Flex, Box, Text, Image } from '@chakra-ui/react';
 import Head from 'next/head';
-import Image from 'next/image';
 
-import googleLogoImg from '../../public/images/google-logo.svg';
-import logoImg from '../../public/images/logo.svg';
-import weightliftingImg from '../../public/images/weightlifting.png';
 import { LoginButton } from '../components/LoginButton';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Home() {
+  const { user } = useAuth();
   return (
     <>
       <Head>
@@ -26,7 +21,7 @@ export default function Home() {
         px="8"
       >
         <Box>
-          <Image src={logoImg} alt="shape.it logo" />
+          <Image src="/images/logo.svg" alt="shape.it logo" />
 
           <Text
             fontSize="6xl"
@@ -39,13 +34,27 @@ export default function Home() {
             Salve e gerencie seus treinos com facilidade.
           </Text>
 
-          <LoginButton type="button" marginTop="32">
-            <Image src={googleLogoImg} alt="G" />
-            Login com o Google
-          </LoginButton>
+          {!user && (
+            <LoginButton type="button" marginTop="32">
+              <Image src="/images/google-logo.svg" alt="G" />
+              Login com o Google
+            </LoginButton>
+          )}
+
+          {user && (
+            <LoginButton type="button" marginTop="32">
+              <Image
+                borderRadius="full"
+                boxSize="50px"
+                src={user.avatar}
+                alt={user.name}
+              />
+              {user.name}
+            </LoginButton>
+          )}
         </Box>
 
-        <Image src={weightliftingImg} alt="Levantamento de peso" />
+        <Image src="/images/weightlifting.png" alt="Levantamento de peso" />
       </Flex>
     </>
   );
