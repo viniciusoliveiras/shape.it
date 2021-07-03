@@ -12,7 +12,11 @@ export default function Home() {
     md: false,
   });
 
-  const buttonMarginTop = useBreakpointValue({ base: '20', md: '32' });
+  const buttonMarginTop = useBreakpointValue({
+    base: '20',
+    md: '28',
+    xl: '32',
+  });
 
   return (
     <>
@@ -42,10 +46,10 @@ export default function Home() {
           )}
 
           <Text
-            fontSize={{ base: '3xl', md: '4xl', lg: '6xl' }}
+            fontSize={{ base: '3xl', md: '4xl', lg: '5xl', xl: '6xl' }}
             w={{ base: '2xs', md: 'xs', lg: 'auto' }}
-            maxW={{ base: '100%', lg: 'xl' }}
-            lineHeight={{ base: '3rem', lg: '5rem' }}
+            maxW={{ base: '100%', lg: 'lg', xl: 'xl' }}
+            lineHeight={{ base: '3rem', lg: '4rem', xl: '5rem' }}
             fontWeight="semibold"
             color="white"
             marginTop={{ base: '36', md: '12' }}
