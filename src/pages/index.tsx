@@ -26,20 +26,26 @@ export default function Home() {
         margin="0 auto"
         justify="space-between"
         align="center"
-        px={{ base: '12', md: '8' }}
+        px={{ base: '12', md: '8', lg: '16', xl: '0' }}
       >
         <Box>
-          {!isMobile && <Image src="/images/logo.svg" alt="shape.it logo" />}
+          {!isMobile && (
+            <Image
+              src="/images/logo.svg"
+              w={{ md: 'xs', lg: 'sm', xl: 'lg' }}
+              alt="shape.it logo"
+            />
+          )}
 
           {isMobile && (
             <Image src="/images/logo-mobile.svg" alt="shape.it logo" />
           )}
 
           <Text
-            fontSize={{ base: '3xl', md: '6xl' }}
-            w={{ base: '2xs', md: 'auto' }}
+            fontSize={{ base: '3xl', md: '4xl', lg: '6xl' }}
+            w={{ base: '2xs', md: 'xs', lg: 'auto' }}
             maxW={{ base: '100%', lg: 'xl' }}
-            lineHeight={{ base: '3rem', md: '5rem' }}
+            lineHeight={{ base: '3rem', lg: '5rem' }}
             fontWeight="semibold"
             color="white"
             marginTop={{ base: '36', md: '12' }}
@@ -50,7 +56,7 @@ export default function Home() {
           <LoginButton type="button" marginTop={buttonMarginTop}>
             <Image
               src="/images/google-logo.svg"
-              boxSize={{ base: '6', md: '8' }}
+              boxSize={{ base: '6', lg: '8' }}
               alt="G"
             />
             Login com o Google
@@ -58,7 +64,11 @@ export default function Home() {
         </Box>
 
         {!isMobile && (
-          <Image src="/images/weightlifting.png" alt="Levantamento de peso" />
+          <Image
+            src="/images/weightlifting.png"
+            boxSize={{ md: '2xs', lg: 'xs', xl: 'sm' }}
+            alt="Levantamento de peso"
+          />
         )}
       </Flex>
     </>
