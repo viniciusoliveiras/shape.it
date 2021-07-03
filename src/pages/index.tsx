@@ -1,20 +1,11 @@
-<<<<<<< HEAD
-import { Flex, Box, Text, Image } from '@chakra-ui/react';
-=======
 /* eslint-disable no-use-before-define */
+import { Flex, Box, Text, Image, useBreakpointValue } from '@chakra-ui/react';
+import Head from 'next/head';
 import React from 'react';
 
-import { Flex, Box, Text, Image, useBreakpointValue } from '@chakra-ui/react';
->>>>>>> feature/index-responsiveness
-import Head from 'next/head';
-
 import { LoginButton } from '../components/LoginButton';
-import { useAuth } from '../hooks/useAuth';
 
 export default function Home() {
-<<<<<<< HEAD
-  const { user } = useAuth();
-=======
   const isMobile = useBreakpointValue({
     base: true,
     md: false,
@@ -22,7 +13,6 @@ export default function Home() {
 
   const buttonMarginTop = useBreakpointValue({ base: '20', md: '32' });
 
->>>>>>> feature/index-responsiveness
   return (
     <>
       <Head>
@@ -38,9 +28,6 @@ export default function Home() {
         px={{ base: '12', md: '8', lg: '16', xl: '0' }}
       >
         <Box>
-<<<<<<< HEAD
-          <Image src="/images/logo.svg" alt="shape.it logo" />
-=======
           {!isMobile && (
             <Image
               src="/images/logo.svg"
@@ -52,7 +39,6 @@ export default function Home() {
           {isMobile && (
             <Image src="/images/logo-mobile.svg" alt="shape.it logo" />
           )}
->>>>>>> feature/index-responsiveness
 
           <Text
             fontSize={{ base: '3xl', md: '4xl', lg: '6xl' }}
@@ -66,29 +52,6 @@ export default function Home() {
             Salve e gerencie seus treinos com facilidade.
           </Text>
 
-<<<<<<< HEAD
-          {!user && (
-            <LoginButton type="button" marginTop="32">
-              <Image src="/images/google-logo.svg" alt="G" />
-              Login com o Google
-            </LoginButton>
-          )}
-
-          {user && (
-            <LoginButton type="button" marginTop="32">
-              <Image
-                borderRadius="full"
-                boxSize="50px"
-                src={user.avatar}
-                alt={user.name}
-              />
-              {user.name}
-            </LoginButton>
-          )}
-        </Box>
-
-        <Image src="/images/weightlifting.png" alt="Levantamento de peso" />
-=======
           <LoginButton type="button" marginTop={buttonMarginTop}>
             <Image
               src="/images/google-logo.svg"
@@ -106,7 +69,6 @@ export default function Home() {
             alt="Levantamento de peso"
           />
         )}
->>>>>>> feature/index-responsiveness
       </Flex>
     </>
   );
