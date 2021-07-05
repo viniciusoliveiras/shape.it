@@ -16,24 +16,24 @@ export function Sidebar() {
   const { isOpen, onClose } = useSidebarDrawer();
   const isDrawerSidebar = useBreakpointValue({
     base: true,
-    lg: false,
+    md: false,
   });
 
   if (isDrawerSidebar) {
     return (
       <Drawer
         isOpen={isOpen}
-        placement="left"
+        placement="right"
         onClose={() => {
           onClose();
         }}
       >
         <DrawerOverlay>
-          <DrawerContent bg="gray.800" p="4">
+          <DrawerContent bg="gray.900" p="4">
             <DrawerCloseButton mt="6" />
-            <DrawerHeader>Navegação</DrawerHeader>
+            <DrawerHeader fontSize="3xl">Navegação</DrawerHeader>
 
-            <DrawerBody>
+            <DrawerBody mt="6">
               <SidebarNav />
             </DrawerBody>
           </DrawerContent>
