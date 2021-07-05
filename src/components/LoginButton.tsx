@@ -15,9 +15,8 @@ export function LoginButton({ children, marginTop }: ButtonProps) {
 
   async function handleLogin() {
     if (!user) {
-      signInWithGoogle();
+      await signInWithGoogle();
     }
-
     router.push('/workouts');
   }
 

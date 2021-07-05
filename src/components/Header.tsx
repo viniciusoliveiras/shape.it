@@ -21,8 +21,6 @@ export function Header() {
     md: false,
   });
 
-  let userExist;
-
   async function handleLogout() {
     signOut();
 

@@ -10,8 +10,8 @@ type User = {
 
 type AuthContextType = {
   user: User | undefined;
-  signInWithGoogle: () => void;
-  signOut: () => void;
+  signInWithGoogle: () => Promise<void>;
+  signOut: () => Promise<void>;
 };
 
 type AuthContextProviderProps = {
@@ -45,34 +45,35 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     };
   }, []);
 
-  function signInWithGoogle() {
+  async function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).then(result => {
-      if (result.user) {
-        const { displayName, email, photoURL } = result.user;
 
-        if (!displayName || !photoURL) {
-          throw new Error('Missing information from Google Account');
-        }
+    const result = await auth.signInWithPopup(provider);
 
-        setUser({
-          name: displayName,
-          email,
-          avatar: photoURL,
-        });
+    if (result.user) {
+      const { displayName, email, photoURL } = result.user;
+
+      if (!displayName || !photoURL) {
+        throw new Error('Missing information from Google Account');
       }
-    });
+
+      setUser({
+        name: displayName,
+        email,
+        avatar: photoURL,
+      });
+    }
   }
 
-  function signOut() {
-    firebase
+  async function signOut() {
+    await firebase
       .auth()
       .signOut()
       .then(() => {
         setUser(undefined);
       })
       .catch(error => {
-        console.log(error);
+        throw new Error(`Error to sign out: ${error}`);
       });
   }
 
