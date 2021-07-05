@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { toast } from 'react-hot-toast';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 
 import { useAuth } from '../hooks/useAuth';
@@ -22,9 +23,10 @@ export function Header() {
   });
 
   async function handleLogout() {
-    signOut();
+    await signOut();
 
     router.push('/');
+    toast.success('Logout realizado');
   }
 
   return (
