@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-use-before-define */
 import { Flex, Image, Text } from '@chakra-ui/react';
 import Head from 'next/head';
@@ -12,7 +13,9 @@ export default function Workouts() {
   const [workouts, setWorkouts] = useState<string>();
 
   useEffect(() => {
-    setWorkouts('undefined');
+    if (window.confirm('Gostaria de simular a página com treinos fictícios?')) {
+      setWorkouts('undefined');
+    }
   }, []);
 
   return (
