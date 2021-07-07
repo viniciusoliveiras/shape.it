@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
+import { Workout } from '../components/Workout';
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState(undefined);
@@ -20,7 +21,7 @@ export default function Workouts() {
       <Flex mx={{ base: '6', md: '8', lg: '12', xl: '24' }}>
         <Sidebar />
 
-        {!workouts && (
+        {workouts && (
           <Flex flexDirection="column" align="center" flex="1">
             <Image
               src="/images/weightlifting.png"
@@ -35,6 +36,18 @@ export default function Workouts() {
             </Text>
           </Flex>
         )}
+
+        <Workout
+          title="Série A"
+          exerciseNumber={8}
+          description="Treino de membros superiores: peitoral, costas, ombros, bíceps e tríceps"
+        />
+
+        <Workout
+          title="Série B"
+          exerciseNumber={6}
+          description="Treino de membros inferiores: quadríceps, posterior, glúteos e panturrilha"
+        />
       </Flex>
     </>
   );
