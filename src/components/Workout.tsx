@@ -14,6 +14,8 @@ export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
       borderRadius="1rem"
       px="12"
       py="9"
+      minHeight="56"
+      justify="center"
     >
       <Flex justify="space-around" align="center">
         <Text fontWeight="medium" fontSize="3xl" color="white">
@@ -24,7 +26,7 @@ export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
         </Text>
       </Flex>
       <Text
-        maxW="80"
+        maxW="96"
         textAlign="center"
         mt="5"
         fontWeight="medium"

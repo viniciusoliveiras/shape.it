@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
 import { Workout } from '../components/Workout';
+import { WorkoutGrid } from '../components/WorkoutGrid';
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState(undefined);
@@ -37,17 +38,19 @@ export default function Workouts() {
           </Flex>
         )}
 
-        <Workout
-          title="Série A"
-          exerciseNumber={8}
-          description="Treino de membros superiores: peitoral, costas, ombros, bíceps e tríceps"
-        />
+        <WorkoutGrid>
+          <Workout
+            title="Série A"
+            exerciseNumber={8}
+            description="Treino de membros superiores: peitoral, costas, ombros, bíceps e tríceps"
+          />
 
-        <Workout
-          title="Série B"
-          exerciseNumber={6}
-          description="Treino de membros inferiores: quadríceps, posterior, glúteos e panturrilha"
-        />
+          <Workout
+            title="Série B"
+            exerciseNumber={6}
+            description="Treino de membros inferiores: quadríceps, posterior, glúteos e panturrilha"
+          />
+        </WorkoutGrid>
       </Flex>
     </>
   );
