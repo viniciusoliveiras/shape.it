@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { useAuth } from '../hooks/useAuth';
@@ -10,14 +10,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function LoginButton({ children, marginTop }: ButtonProps) {
-  const router = useRouter();
   const { signInWithGoogle, user } = useAuth();
 
   async function handleLogin() {
     if (!user) {
       await signInWithGoogle();
     }
-    router.push('/workouts');
+
+    Router.push('/workouts');
   }
 
   return (

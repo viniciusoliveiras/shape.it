@@ -1,6 +1,8 @@
 /* eslint-disable no-use-before-define */
 import { Flex, Box, Text, Image, useBreakpointValue } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import { parseCookies } from 'nookies';
 import React from 'react';
 
 import { LoginButton } from '../components/LoginButton';
@@ -77,3 +79,20 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const cookies = parseCookies(ctx);
+
+  if (cookies['shapeit.idToken']) {
+    return {
+      redirect: {
+        destination: '/workouts',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

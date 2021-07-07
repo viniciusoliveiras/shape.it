@@ -8,16 +8,13 @@ import {
   IconButton,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 import React from 'react';
-import { toast } from 'react-hot-toast';
 import { RiMenuLine, RiLogoutBoxRLine } from 'react-icons/ri';
 
 import { useSidebarDrawer } from '../contexts/SidebarDrawerContent';
 import { useAuth } from '../hooks/useAuth';
 
 export function Header() {
-  const router = useRouter();
   const { signOut, user } = useAuth();
   const { onOpen } = useSidebarDrawer();
   const isMobile = useBreakpointValue({
@@ -27,9 +24,6 @@ export function Header() {
 
   async function handleLogout() {
     await signOut();
-
-    router.push('/');
-    toast.success('Logout realizado');
   }
 
   return (

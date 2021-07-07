@@ -1,3 +1,5 @@
+import Router from 'next/router';
+import { destroyCookie, setCookie } from 'nookies';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -53,10 +55,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     if (result.user) {
       const { displayName, email, photoURL } = result.user;
+      const credential = result.credential as firebase.auth.OAuthCredential;
+      const token = credential.idToken;
 
       if (!displayName || !photoURL) {
         throw new Error('Missing information from Google Account');
       }
+
+      toast.success(`Seja bem vindo(a) ${result.user.displayName}!`);
+
+      Router.push('/workouts');
 
       setUser({
         name: displayName,
@@ -64,20 +72,28 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         avatar: photoURL,
       });
 
-      toast.success(`Seja bem vindo(a) ${result.user.displayName}!`);
+      setCookie(undefined, 'shapeit.idToken', token || '', {
+        path: '/',
+      });
     }
   }
 
   async function signOut() {
-    await firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        setUser(undefined);
-      })
-      .catch(error => {
-        throw new Error(`Error to sign out: ${error}`);
-      });
+    try {
+      await firebase.auth().signOut();
+
+      toast.success('Logout realizado');
+
+      Router.push('/');
+
+      setUser(undefined);
+
+      destroyCookie(undefined, 'shapeit.idToken');
+    } catch (error) {
+      toast.error('Erro ao realizar o logout. Tente mais tarde');
+
+      throw new Error(`Error to sign out: ${error}`);
+    }
   }
 
   return (
