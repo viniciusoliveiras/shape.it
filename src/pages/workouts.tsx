@@ -64,6 +64,12 @@ export default function Workouts() {
               exerciseNumber={10}
               description="Fusce efficitur enim vitae lorem suscipit, sit amet dapibus diam ultrices. Duis nec ex vel velit aliquet facilisis et cursus urna."
             />
+
+            <Workout
+              title="Série D"
+              exerciseNumber={1}
+              description="In a est accumsan, blandit magna nec, tincidunt arcu. Aliquam pellentesque lectus in turpis congue mattis. Proin non fringilla leo, nec malesuada dui."
+            />
           </WorkoutGrid>
         )}
       </Flex>

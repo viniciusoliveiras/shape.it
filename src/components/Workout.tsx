@@ -12,9 +12,9 @@ export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
       flexDirection="column"
       bgColor="gray.700"
       borderRadius="1rem"
-      px={{ md: '6', lg: '8', xl: '12' }}
-      py={{ md: '5', lg: '7', xl: '9' }}
-      minHeight={{ md: '44', lg: '48', xl: '56' }}
+      px={{ base: '4', md: '6', lg: '8', xl: '12' }}
+      py={{ base: '3', md: '5', lg: '7', xl: '9' }}
+      minHeight={{ base: '40', md: '44', lg: '48', xl: '56' }}
       justify="center"
       _hover={{
         cursor: 'pointer',
@@ -24,22 +24,21 @@ export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
       <Flex justify="space-around" align="center">
         <Text
           fontWeight="medium"
-          fontSize={{ md: 'xl', lg: '2xl', xl: '3xl' }}
+          fontSize={{ base: 'xl', lg: '2xl', xl: '3xl' }}
           color="white"
         >
           {title}
         </Text>
-        <Text fontSize={{ md: 'sm', lg: 'lg', xl: 'xl' }} color="blue.500">
-          {exerciseNumber} exercícios
+        <Text fontSize={{ base: 'sm', lg: 'lg', xl: 'xl' }} color="blue.500">
+          {exerciseNumber} {exerciseNumber > 1 ? 'exercícios' : 'exercício'}
         </Text>
       </Flex>
-      {/* {{ lg: '', xl: '' }} */}
       <Text
         maxW="96"
         textAlign="center"
         mt="5"
         fontWeight="medium"
-        fontSize={{ md: 'sm', lg: 'lg', xl: 'xl' }}
+        fontSize={{ base: 'sm', lg: 'lg', xl: 'xl' }}
         alignSelf="center"
       >
         {description}
