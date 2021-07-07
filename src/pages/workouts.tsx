@@ -23,7 +23,10 @@ export default function Workouts() {
 
       <Header />
 
-      <Flex mx={{ base: '6', md: '8', lg: '12', xl: '24' }} mb="10">
+      <Flex
+        mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
+        mb={{ base: '4', md: '8', xl: '12' }}
+      >
         <Sidebar />
 
         {!workouts && (
@@ -58,7 +61,7 @@ export default function Workouts() {
 
             <Workout
               title="Série C"
-              exerciseNumber={6}
+              exerciseNumber={10}
               description="Fusce efficitur enim vitae lorem suscipit, sit amet dapibus diam ultrices. Duis nec ex vel velit aliquet facilisis et cursus urna."
             />
           </WorkoutGrid>

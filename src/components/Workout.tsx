@@ -12,9 +12,9 @@ export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
       flexDirection="column"
       bgColor="gray.700"
       borderRadius="1rem"
-      px={{ lg: '8', xl: '12' }}
-      py={{ lg: '7', xl: '9' }}
-      minHeight={{ lg: '48', xl: '56' }}
+      px={{ md: '6', lg: '8', xl: '12' }}
+      py={{ md: '5', lg: '7', xl: '9' }}
+      minHeight={{ md: '44', lg: '48', xl: '56' }}
       justify="center"
       _hover={{
         cursor: 'pointer',
@@ -24,12 +24,12 @@ export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
       <Flex justify="space-around" align="center">
         <Text
           fontWeight="medium"
-          fontSize={{ lg: '2xl', xl: '3xl' }}
+          fontSize={{ md: 'xl', lg: '2xl', xl: '3xl' }}
           color="white"
         >
           {title}
         </Text>
-        <Text fontSize={{ lg: 'lg', xl: 'xl' }} color="blue.500">
+        <Text fontSize={{ md: 'sm', lg: 'lg', xl: 'xl' }} color="blue.500">
           {exerciseNumber} exercícios
         </Text>
       </Flex>
@@ -39,7 +39,7 @@ export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
         textAlign="center"
         mt="5"
         fontWeight="medium"
-        fontSize={{ lg: 'lg', xl: 'xl' }}
+        fontSize={{ md: 'sm', lg: 'lg', xl: 'xl' }}
         alignSelf="center"
       >
         {description}
