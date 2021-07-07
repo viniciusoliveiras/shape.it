@@ -2,21 +2,24 @@
 import {
   Box,
   Flex,
+  Grid,
   Image,
   Text,
-  Icon,
+  IconButton,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { toast } from 'react-hot-toast';
-import { RiLogoutBoxRLine } from 'react-icons/ri';
+import { RiMenuLine, RiLogoutBoxRLine } from 'react-icons/ri';
 
+import { useSidebarDrawer } from '../contexts/SidebarDrawerContent';
 import { useAuth } from '../hooks/useAuth';
 
 export function Header() {
   const router = useRouter();
   const { signOut, user } = useAuth();
+  const { onOpen } = useSidebarDrawer();
   const isMobile = useBreakpointValue({
     base: true,
     md: false,
@@ -49,8 +52,8 @@ export function Header() {
         <Image src="/images/logo-mobile.svg" w="32" alt="shape.it" />
       )}
 
-      <Flex align="center">
-        {!isMobile && user && (
+      {!isMobile && (
+        <Flex align="center">
           <Box mr={{ md: '4', lg: '7' }}>
             <Text
               textAlign="right"
@@ -67,37 +70,73 @@ export function Header() {
               {user?.email}
             </Text>
           </Box>
-        )}
 
-        {user && (
           <Image
             src={user?.avatar}
             alt={user?.name}
             borderRadius="full"
             boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
+            mr={{ md: '4', lg: '6', xl: '8' }}
           />
-        )}
 
-        <Box
-          as="button"
-          border="0"
-          background="none"
-          ml={{ md: '4', lg: '6', xl: '8' }}
-          width="14"
-          height="14"
-          borderRadius="6"
-          _hover={{
-            opacity: '0.9',
-            background: 'gray.700',
-          }}
-          onClick={handleLogout}
-        >
-          <Icon
-            as={RiLogoutBoxRLine}
-            fontSize={{ base: '1.5rem', md: '2rem', xl: '2.5rem' }}
+          <IconButton
+            border="0"
+            background="none"
+            borderRadius="6"
+            w="14"
+            h="14"
+            _hover={{
+              opacity: '0.9',
+              background: 'gray.700',
+            }}
+            onClick={handleLogout}
+            aria-label="Sair"
+            icon={<RiLogoutBoxRLine fontSize="2rem" />}
           />
-        </Box>
-      </Flex>
+        </Flex>
+      )}
+
+      {isMobile && (
+        <Grid templateColumns="repeat(3, 1fr)">
+          <Image
+            src={user?.avatar}
+            alt={user?.name}
+            borderRadius="full"
+            boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
+            mr={{ md: '4', lg: '6', xl: '8' }}
+          />
+
+          <IconButton
+            border="0"
+            background="none"
+            borderRadius="6"
+            w="14"
+            h="14"
+            _hover={{
+              opacity: '0.9',
+              background: 'gray.700',
+            }}
+            onClick={onOpen}
+            aria-label="Abrir menu"
+            icon={<RiMenuLine fontSize="2rem" />}
+          />
+
+          <IconButton
+            border="0"
+            background="none"
+            borderRadius="6"
+            w="14"
+            h="14"
+            _hover={{
+              opacity: '0.9',
+              background: 'gray.700',
+            }}
+            onClick={handleLogout}
+            aria-label="Sair"
+            icon={<RiLogoutBoxRLine fontSize="2rem" />}
+          />
+        </Grid>
+      )}
     </Flex>
   );
 }

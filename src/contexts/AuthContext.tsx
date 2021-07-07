@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { auth, firebase } from '../services/firebase';
 
@@ -62,6 +63,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         email,
         avatar: photoURL,
       });
+
+      toast.success(`Seja bem vindo(a) ${result.user.displayName}!`);
     }
   }
 
