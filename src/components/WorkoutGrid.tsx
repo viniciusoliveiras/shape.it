@@ -7,7 +7,11 @@ interface WorkoutGridProps {
 
 export function WorkoutGrid({ children }: WorkoutGridProps) {
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap="10" width="100%">
+    <Grid
+      templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
+      gap={{ base: '6', xl: '10' }}
+      width="100%"
+    >
       {children}
     </Grid>
   );

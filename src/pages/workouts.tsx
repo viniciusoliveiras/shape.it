@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import { Flex, Image, Text } from '@chakra-ui/react';
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
@@ -9,7 +9,11 @@ import { Workout } from '../components/Workout';
 import { WorkoutGrid } from '../components/WorkoutGrid';
 
 export default function Workouts() {
-  const [workouts, setWorkouts] = useState(undefined);
+  const [workouts, setWorkouts] = useState<string>();
+
+  useEffect(() => {
+    setWorkouts('undefined');
+  }, []);
 
   return (
     <>
@@ -19,10 +23,10 @@ export default function Workouts() {
 
       <Header />
 
-      <Flex mx={{ base: '6', md: '8', lg: '12', xl: '24' }}>
+      <Flex mx={{ base: '6', md: '8', lg: '12', xl: '24' }} mb="10">
         <Sidebar />
 
-        {workouts && (
+        {!workouts && (
           <Flex flexDirection="column" align="center" flex="1">
             <Image
               src="/images/weightlifting.png"
@@ -38,19 +42,27 @@ export default function Workouts() {
           </Flex>
         )}
 
-        <WorkoutGrid>
-          <Workout
-            title="Série A"
-            exerciseNumber={8}
-            description="Treino de membros superiores: peitoral, costas, ombros, bíceps e tríceps"
-          />
+        {workouts && (
+          <WorkoutGrid>
+            <Workout
+              title="Série A"
+              exerciseNumber={8}
+              description="Pellentesque lorem nulla, sollicitudin sed nulla vel, porttitor consequat purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi."
+            />
 
-          <Workout
-            title="Série B"
-            exerciseNumber={6}
-            description="Treino de membros inferiores: quadríceps, posterior, glúteos e panturrilha"
-          />
-        </WorkoutGrid>
+            <Workout
+              title="Série B"
+              exerciseNumber={6}
+              description="Maecenas sit amet eros maximus neque varius aliquet nec a enim. Cras viverra erat a quam pretium pellentesque. Mauris vel magna quis sem ultricies consequat."
+            />
+
+            <Workout
+              title="Série C"
+              exerciseNumber={6}
+              description="Fusce efficitur enim vitae lorem suscipit, sit amet dapibus diam ultrices. Duis nec ex vel velit aliquet facilisis et cursus urna."
+            />
+          </WorkoutGrid>
+        )}
       </Flex>
     </>
   );
