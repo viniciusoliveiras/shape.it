@@ -16,7 +16,7 @@ export default function Workouts() {
   return (
     <>
       <Head>
-        <title>shape.it | treinos</title>
+        <title>shape.it</title>
       </Head>
 
       <AlertConfirm setWorkouts={setWorkouts} />
