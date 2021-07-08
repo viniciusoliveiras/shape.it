@@ -80,7 +80,8 @@ export function Header() {
             w="14"
             h="14"
             _hover={{
-              opacity: '0.9',
+              transition: 0.2,
+              filter: 'brightness(0.9)',
               background: 'gray.700',
             }}
             onClick={handleLogout}
@@ -107,7 +108,8 @@ export function Header() {
             w="14"
             h="14"
             _hover={{
-              opacity: '0.9',
+              transition: 0.2,
+              filter: 'brightness(0.9)',
               background: 'gray.700',
             }}
             onClick={onOpen}
@@ -122,7 +124,8 @@ export function Header() {
             w="14"
             h="14"
             _hover={{
-              opacity: '0.9',
+              transition: 0.2,
+              filter: 'brightness(0.9)',
               background: 'gray.700',
             }}
             onClick={handleLogout}
