@@ -2,8 +2,9 @@
 /* eslint-disable no-use-before-define */
 import { Flex, Image, Text } from '@chakra-ui/react';
 import Head from 'next/head';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
+import { AlertConfirm } from '../components/AlertConfirm';
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
 import { Workout } from '../components/Workout';
@@ -12,20 +13,15 @@ import { WorkoutGrid } from '../components/WorkoutGrid';
 export default function Workouts() {
   const [workouts, setWorkouts] = useState<string>();
 
-  useEffect(() => {
-    if (window.confirm('Gostaria de simular a página com treinos fictícios?')) {
-      setWorkouts('undefined');
-    }
-  }, []);
-
   return (
     <>
       <Head>
         <title>shape.it | treinos</title>
       </Head>
 
-      <Header />
+      <AlertConfirm setWorkouts={setWorkouts} />
 
+      <Header />
       <Flex
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
         mb={{ base: '4', md: '8', xl: '12' }}
