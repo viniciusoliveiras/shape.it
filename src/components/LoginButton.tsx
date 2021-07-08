@@ -32,9 +32,7 @@ export function LoginButton({ children, marginTop }: ButtonProps) {
       fontWeight="medium"
       fontSize={{ base: 'lg', md: 'xl', lg: '2xl' }}
       borderRadius="xl"
-      _hover={{
-        opacity: '0.8',
-      }}
+      _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
       onClick={handleLogin}
     >
       {children}

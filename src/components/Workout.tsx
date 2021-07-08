@@ -16,10 +16,7 @@ export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
       py={{ base: '3', md: '5', lg: '7', xl: '9' }}
       minHeight={{ base: '40', md: '44', lg: '48', xl: '56' }}
       justify="center"
-      _hover={{
-        cursor: 'pointer',
-        opacity: '0.8',
-      }}
+      _hover={{ transition: 0.2, filter: 'brightness(0.9)', cursor: 'pointer' }}
     >
       <Flex justify="space-around" align="center">
         <Text
