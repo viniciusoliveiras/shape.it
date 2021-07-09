@@ -9,10 +9,10 @@
 ```bash
 
 # Clone this repository
-$ git clone https://github.com/viniciusoliveiras/worldtrip.git
+$ https://github.com/viniciusoliveiras/shape.it.git
 
 # Access the project folder on your terminal/cmd
-$ cd worldtrip
+$ cd shape.it
 
 # Install the dependencies
 $ yarn
