@@ -1,20 +1,13 @@
+import { User, Session } from '@supabase/supabase-js';
 import Router from 'next/router';
-import { destroyCookie, setCookie } from 'nookies';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { auth, firebase } from '../services/firebase';
-
-type User = {
-  name: string;
-  email: string | null;
-  avatar: string;
-};
+import { supabase } from '../services/supabase';
 
 type AuthContextType = {
-  user: User | undefined;
-  signInWithGoogle: () => Promise<void>;
-  signOut: () => Promise<void>;
+  user?: User;
+  session?: Session;
 };
 
 type AuthContextProviderProps = {
@@ -25,79 +18,40 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<User>();
+  const [session, setSession] = useState<Session>();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(subUser => {
-      if (subUser) {
-        const { displayName, photoURL, email } = subUser;
+    const currentSession = supabase.auth.session();
+    const currentUser = supabase.auth.user();
 
-        if (!displayName || !photoURL) {
-          throw new Error('Missing information from Google Account');
-        }
+    if (currentSession) {
+      setSession(currentSession);
+      setUser(currentUser ?? undefined);
+      Router.push('/workouts');
+      toast.success(
+        `Seja bem vindo(a) de volta, ${currentUser?.user_metadata.full_name}`
+      );
+    }
 
-        setUser({
-          name: displayName,
-          email,
-          avatar: photoURL,
-        });
+    const { data } = supabase.auth.onAuthStateChange((event, newSession) => {
+      setSession(newSession ?? undefined);
+      setUser(newSession?.user ?? undefined);
+
+      if (newSession?.user) {
+        Router.push('/workouts');
+        toast.success(
+          `Seja bem vindo(a), ${newSession?.user?.user_metadata.full_name}`
+        );
       }
     });
 
     return () => {
-      unsubscribe();
+      data?.unsubscribe();
     };
   }, []);
 
-  async function signInWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    const result = await auth.signInWithPopup(provider);
-
-    if (result.user) {
-      const { displayName, email, photoURL } = result.user;
-      const credential = result.credential as firebase.auth.OAuthCredential;
-      const token = credential.idToken;
-
-      if (!displayName || !photoURL) {
-        throw new Error('Missing information from Google Account');
-      }
-
-      toast.success(`Seja bem vindo(a) ${result.user.displayName}!`);
-
-      Router.push('/workouts');
-
-      setUser({
-        name: displayName,
-        email,
-        avatar: photoURL,
-      });
-
-      setCookie(undefined, 'shapeit.idToken', token || '', {
-        path: '/',
-      });
-    }
-  }
-
-  async function signOut() {
-    try {
-      await firebase.auth().signOut();
-
-      toast.success('Logout realizado');
-
-      Router.push('/');
-
-      setUser(undefined);
-
-      destroyCookie(undefined, 'shapeit.idToken');
-    } catch (error) {
-      toast.error('Erro ao realizar o logout. Tente mais tarde');
-
-      throw new Error(`Error to sign out: ${error}`);
-    }
-  }
-
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, session }}>
       {children}
     </AuthContext.Provider>
   );

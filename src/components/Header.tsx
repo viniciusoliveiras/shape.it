@@ -8,14 +8,17 @@ import {
   IconButton,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import Router from 'next/router';
 import React from 'react';
+import { toast } from 'react-hot-toast';
 import { RiMenuLine, RiLogoutBoxRLine } from 'react-icons/ri';
 
 import { useSidebarDrawer } from '../contexts/SidebarDrawerContent';
 import { useAuth } from '../hooks/useAuth';
+import { supabase } from '../services/supabase';
 
 export function Header() {
-  const { signOut, user } = useAuth();
+  const { user } = useAuth();
   const { onOpen } = useSidebarDrawer();
   const isMobile = useBreakpointValue({
     base: true,
@@ -23,7 +26,14 @@ export function Header() {
   });
 
   async function handleLogout() {
-    await signOut();
+    try {
+      await supabase.auth.signOut();
+      Router.push('/');
+      toast.success('Logout realizado');
+    } catch (error) {
+      toast.error('Erro ao realizar o logout. Tente mais tarde');
+      throw error;
+    }
   }
 
   return (
@@ -54,7 +64,7 @@ export function Header() {
               color="gray.50"
               fontSize={{ md: 'lg', lg: 'xl', xl: '2xl' }}
             >
-              {user?.name}
+              {user?.user_metadata.full_name}
             </Text>
             <Text
               textAlign="right"
@@ -66,8 +76,8 @@ export function Header() {
           </Box>
 
           <Image
-            src={user?.avatar}
-            alt={user?.name}
+            src={user?.user_metadata.avatar_url}
+            alt={user?.user_metadata.full_name}
             borderRadius="full"
             boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
             mr={{ md: '4', lg: '6', xl: '8' }}
@@ -94,8 +104,8 @@ export function Header() {
       {isMobile && (
         <Grid templateColumns="repeat(3, 1fr)">
           <Image
-            src={user?.avatar}
-            alt={user?.name}
+            src={user?.user_metadata.avatar_url}
+            alt={user?.user_metadata.full_name}
             borderRadius="full"
             boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
             mr={{ md: '4', lg: '6', xl: '8' }}

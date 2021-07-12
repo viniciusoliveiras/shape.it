@@ -1,8 +1,7 @@
 import { Flex } from '@chakra-ui/react';
-import Router from 'next/router';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import { useAuth } from '../hooks/useAuth';
+import { supabase } from '../services/supabase';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -10,14 +9,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function LoginButton({ children, marginTop }: ButtonProps) {
-  const { signInWithGoogle, user } = useAuth();
-
   async function handleLogin() {
-    if (!user) {
-      await signInWithGoogle();
-    }
+    const { error } = await supabase.auth.signIn({
+      provider: 'google',
+    });
 
-    Router.push('/workouts');
+    if (error) {
+      throw new Error(`${error}`);
+    }
   }
 
   return (
