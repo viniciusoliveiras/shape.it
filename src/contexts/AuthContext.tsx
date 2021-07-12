@@ -1,13 +1,22 @@
 import { User, Session } from '@supabase/supabase-js';
-import Router from 'next/router';
-import { createContext, ReactNode, useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { setCookie } from 'nookies';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 
 import { supabase } from '../services/supabase';
 
 type AuthContextType = {
   user?: User;
   session?: Session;
+  handleLogin: () => Promise<void>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  loading: boolean;
 };
 
 type AuthContextProviderProps = {
@@ -17,32 +26,23 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [user, setUser] = useState<User>();
-  const [session, setSession] = useState<Session>();
+  const [user, setUser] = useState(supabase.auth.user() ?? undefined);
+  const [session, setSession] = useState(supabase.auth.session() ?? undefined);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const currentSession = supabase.auth.session();
-    const currentUser = supabase.auth.user();
-
-    if (currentSession) {
-      setSession(currentSession);
-      setUser(currentUser ?? undefined);
-      Router.push('/workouts');
-      toast.success(
-        `Seja bem vindo(a) de volta, ${currentUser?.user_metadata.full_name}`
-      );
-    }
-
     const { data } = supabase.auth.onAuthStateChange((event, newSession) => {
-      setSession(newSession ?? undefined);
-      setUser(newSession?.user ?? undefined);
+      setUser(supabase.auth.user() ?? undefined);
+      setSession(supabase.auth.session() ?? undefined);
 
-      if (newSession?.user) {
-        Router.push('/workouts');
-        toast.success(
-          `Seja bem vindo(a), ${newSession?.user?.user_metadata.full_name}`
-        );
-      }
+      setCookie(
+        undefined,
+        'shape-it.access-token',
+        newSession?.access_token || '',
+        {
+          path: '/',
+        }
+      );
     });
 
     return () => {
@@ -50,8 +50,25 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     };
   }, []);
 
+  async function handleLogin() {
+    const { error } = await supabase.auth.signIn(
+      {
+        provider: 'google',
+      },
+      {
+        redirectTo: 'http://localhost:3000/workouts',
+      }
+    );
+
+    if (error) {
+      throw error;
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, session }}>
+    <AuthContext.Provider
+      value={{ user, session, handleLogin, setLoading, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );

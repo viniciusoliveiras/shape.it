@@ -1,17 +1,27 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-use-before-define */
 import { Flex, Image, Text } from '@chakra-ui/react';
+import { css } from '@emotion/react';
 import Head from 'next/head';
 import React, { useState } from 'react';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 import { AlertConfirm } from '../components/AlertConfirm';
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
 import { Workout } from '../components/Workout';
 import { WorkoutGrid } from '../components/WorkoutGrid';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState<string>();
+  const { loading } = useAuth();
+
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+  `;
 
   return (
     <>
@@ -28,7 +38,7 @@ export default function Workouts() {
       >
         <Sidebar />
 
-        {!workouts && (
+        {!workouts && !loading && (
           <Flex flexDirection="column" align="center" flex="1">
             <Image
               src="/images/weightlifting.png"
@@ -44,7 +54,25 @@ export default function Workouts() {
           </Flex>
         )}
 
-        {workouts && (
+        {!workouts && loading && (
+          <PulseLoader
+            color="#eba417"
+            loading={loading}
+            css={override}
+            size={30}
+          />
+        )}
+
+        {workouts && loading && (
+          <PulseLoader
+            color="#eba417"
+            loading={loading}
+            css={override}
+            size={30}
+          />
+        )}
+
+        {workouts && !loading && (
           <WorkoutGrid>
             <Workout
               title="Série A"

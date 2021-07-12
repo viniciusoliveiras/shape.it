@@ -8,8 +8,6 @@ import { AuthContextProvider } from '../contexts/AuthContext';
 import { SidebarDrawerProvider } from '../contexts/SidebarDrawerContent';
 import { theme } from '../styles/theme';
 
-import '../styles/globals.scss';
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthContextProvider>

@@ -9,27 +9,48 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import Router from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { RiMenuLine, RiLogoutBoxRLine } from 'react-icons/ri';
+import { RiMenuLine, RiLogoutBoxRLine, RiUser3Fill } from 'react-icons/ri';
 
 import { useSidebarDrawer } from '../contexts/SidebarDrawerContent';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../services/supabase';
 
+type LoggedUserType = {
+  name?: string;
+  email?: string;
+  avatar_url?: string;
+};
+
 export function Header() {
-  const { user } = useAuth();
+  const { user, setLoading, loading } = useAuth();
   const { onOpen } = useSidebarDrawer();
   const isMobile = useBreakpointValue({
     base: true,
     md: false,
   });
+  const [loggedUser, setLoggedUser] = useState<LoggedUserType>();
+
+  useEffect(() => {
+    setLoggedUser({
+      name: user?.user_metadata.full_name,
+      email: user?.email,
+      avatar_url: user?.user_metadata.avatar_url,
+    });
+  }, [
+    user?.user_metadata.full_name,
+    user?.email,
+    user?.user_metadata.avatar_url,
+  ]);
 
   async function handleLogout() {
     try {
+      setLoading(true);
       await supabase.auth.signOut();
       Router.push('/');
       toast.success('Logout realizado');
+      console.log(loading);
     } catch (error) {
       toast.error('Erro ao realizar o logout. Tente mais tarde');
       throw error;
@@ -64,24 +85,36 @@ export function Header() {
               color="gray.50"
               fontSize={{ md: 'lg', lg: 'xl', xl: '2xl' }}
             >
-              {user?.user_metadata.full_name}
+              {loggedUser?.name}
             </Text>
             <Text
               textAlign="right"
               color="gray.100"
               fontSize={{ md: 'md', lg: 'lg', xl: 'xl' }}
             >
-              {user?.email}
+              {loggedUser?.email}
             </Text>
           </Box>
 
-          <Image
-            src={user?.user_metadata.avatar_url}
-            alt={user?.user_metadata.full_name}
-            borderRadius="full"
-            boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
-            mr={{ md: '4', lg: '6', xl: '8' }}
-          />
+          {loggedUser?.avatar_url ? (
+            <Image
+              src={loggedUser?.avatar_url}
+              alt={loggedUser?.name}
+              borderRadius="full"
+              boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
+              mr={{ md: '4', lg: '6', xl: '8' }}
+            />
+          ) : (
+            <IconButton
+              border="0"
+              background="none"
+              w="14"
+              h="14"
+              mr="4"
+              aria-label="Usuário"
+              icon={<RiUser3Fill fontSize="2rem" />}
+            />
+          )}
 
           <IconButton
             border="0"
@@ -103,13 +136,25 @@ export function Header() {
 
       {isMobile && (
         <Grid templateColumns="repeat(3, 1fr)">
-          <Image
-            src={user?.user_metadata.avatar_url}
-            alt={user?.user_metadata.full_name}
-            borderRadius="full"
-            boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
-            mr={{ md: '4', lg: '6', xl: '8' }}
-          />
+          {loggedUser?.avatar_url ? (
+            <Image
+              src={loggedUser?.avatar_url}
+              alt={loggedUser?.name}
+              borderRadius="full"
+              boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
+              mr={{ md: '4', lg: '6', xl: '8' }}
+            />
+          ) : (
+            <IconButton
+              border="0"
+              background="none"
+              w="14"
+              h="14"
+              mr="4"
+              aria-label="Usuário"
+              icon={<RiUser3Fill fontSize="2rem" />}
+            />
+          )}
 
           <IconButton
             border="0"
