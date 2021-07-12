@@ -1,9 +1,12 @@
 /* eslint-disable no-use-before-define */
 import { Flex, Box, Text, Image, useBreakpointValue } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import { parseCookies } from 'nookies';
 import React from 'react';
 
 import { LoginButton } from '../components/LoginButton';
+import { supabase } from '../services/supabase';
 
 export default function Home() {
   const isMobile = useBreakpointValue({
@@ -77,3 +80,20 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const cookies = parseCookies(ctx);
+
+  if (cookies['shape-it.access-token']) {
+    return {
+      redirect: {
+        destination: '/workouts',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
