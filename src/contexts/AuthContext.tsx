@@ -1,6 +1,13 @@
 import { User, Session } from '@supabase/supabase-js';
 import { setCookie } from 'nookies';
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 
 import { supabase } from '../services/supabase';
 
@@ -8,6 +15,8 @@ type AuthContextType = {
   user?: User;
   session?: Session;
   handleLogin: () => Promise<void>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  loading: boolean;
 };
 
 type AuthContextProviderProps = {
@@ -19,6 +28,7 @@ export const AuthContext = createContext({} as AuthContextType);
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState(supabase.auth.user() ?? undefined);
   const [session, setSession] = useState(supabase.auth.session() ?? undefined);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, newSession) => {
@@ -56,7 +66,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, handleLogin }}>
+    <AuthContext.Provider
+      value={{ user, session, handleLogin, setLoading, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
