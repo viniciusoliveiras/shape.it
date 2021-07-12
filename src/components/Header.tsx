@@ -24,7 +24,7 @@ type LoggedUserType = {
 };
 
 export function Header() {
-  const { user, setLoading, loading } = useAuth();
+  const { user, setLoading } = useAuth();
   const { onOpen } = useSidebarDrawer();
   const isMobile = useBreakpointValue({
     base: true,
@@ -50,7 +50,6 @@ export function Header() {
       await supabase.auth.signOut();
       Router.push('/');
       toast.success('Logout realizado');
-      console.log(loading);
     } catch (error) {
       toast.error('Erro ao realizar o logout. Tente mais tarde');
       throw error;

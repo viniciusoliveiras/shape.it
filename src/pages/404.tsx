@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { Flex, Link, Text, Image } from '@chakra-ui/react';
+import { Flex, Text, Image } from '@chakra-ui/react';
 import Head from 'next/head';
 import Router from 'next/router';
 import React from 'react';
