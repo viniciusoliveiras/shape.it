@@ -6,7 +6,6 @@ import { parseCookies } from 'nookies';
 import React from 'react';
 
 import { LoginButton } from '../components/LoginButton';
-import { supabase } from '../services/supabase';
 
 export default function Home() {
   const isMobile = useBreakpointValue({

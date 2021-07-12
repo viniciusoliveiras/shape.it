@@ -11,7 +11,7 @@ import {
 import Router from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { RiMenuLine, RiLogoutBoxRLine, RiAliensFill } from 'react-icons/ri';
+import { RiMenuLine, RiLogoutBoxRLine, RiUser3Fill } from 'react-icons/ri';
 
 import { useSidebarDrawer } from '../contexts/SidebarDrawerContent';
 import { useAuth } from '../hooks/useAuth';
@@ -110,7 +110,7 @@ export function Header() {
               h="14"
               mr="4"
               aria-label="Usuário"
-              icon={<RiAliensFill fontSize="2rem" />}
+              icon={<RiUser3Fill fontSize="2rem" />}
             />
           )}
 
@@ -134,7 +134,7 @@ export function Header() {
 
       {isMobile && (
         <Grid templateColumns="repeat(3, 1fr)">
-          {loggedUser ? (
+          {loggedUser?.avatar_url ? (
             <Image
               src={loggedUser?.avatar_url}
               alt={loggedUser?.name}
@@ -150,7 +150,7 @@ export function Header() {
               h="14"
               mr="4"
               aria-label="Usuário"
-              icon={<RiAliensFill fontSize="2rem" />}
+              icon={<RiUser3Fill fontSize="2rem" />}
             />
           )}
 
