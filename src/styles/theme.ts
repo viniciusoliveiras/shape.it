@@ -26,6 +26,9 @@ export const theme = extendTheme({
     green: {
       '500': '#04d361',
     },
+    red: {
+      '500': '#FB6161',
+    },
   },
   fonts: {
     heading: 'Poppins',
