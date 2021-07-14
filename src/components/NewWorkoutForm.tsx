@@ -40,6 +40,7 @@ export function NewWorkoutForm() {
     setIsLoading(true);
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsLoading(false);
+    console.log('Workout created', data);
     reset();
     Router.push('/workouts');
     toast.success('Treino criado');
@@ -58,8 +59,8 @@ export function NewWorkoutForm() {
       flexDirection="column"
       bgColor="gray.700"
       borderRadius="2xl"
-      px="16"
-      py="8"
+      px={{ base: '6', md: '8', lg: '16' }}
+      py={{ base: '4', md: '6', lg: '8' }}
       onSubmit={handleSubmit(createWorkout)}
     >
       <FormLabel
@@ -113,7 +114,7 @@ export function NewWorkoutForm() {
         <Text>{errors.description?.message}</Text>
       </Flex>
 
-      <Flex alignSelf="flex-end" mt="10">
+      <Flex alignSelf={{ base: 'center', md: 'flex-end' }} mt="10">
         <Button
           mr="5"
           bgColor="gray.200"
