@@ -13,8 +13,8 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { RiMenuLine, RiLogoutBoxRLine, RiUser3Fill } from 'react-icons/ri';
 
-import { useSidebarDrawer } from '../contexts/SidebarDrawerContent';
 import { useAuth } from '../hooks/useAuth';
+import { useSidebarDrawer } from '../hooks/useSidebarDrawer';
 import { supabase } from '../services/supabase';
 
 type LoggedUserType = {
@@ -128,7 +128,7 @@ export function Header() {
       )}
 
       {isMobile && (
-        <Grid templateColumns="repeat(3, 1fr)">
+        <Grid templateColumns="repeat(3, 1fr)" gap="1">
           {loggedUser?.avatar_url ? (
             <Image
               src={loggedUser?.avatar_url}
