@@ -34,17 +34,11 @@ export default function Home() {
         px={{ base: '12', md: '8', lg: '16', xl: '0' }}
       >
         <Box>
-          {!isMobile && (
-            <Image
-              src="/images/logo.svg"
-              w={{ md: 'xs', lg: 'sm', xl: 'lg' }}
-              alt="shape.it logo"
-            />
-          )}
-
-          {isMobile && (
-            <Image src="/images/logo-mobile.svg" alt="shape.it logo" />
-          )}
+          <Image
+            src="/images/logo.svg"
+            w={{ base: '3xs', md: '2xs', lg: 'xs', xl: 'sm' }}
+            alt="shape.it logo"
+          />
 
           <Text
             fontSize={{ base: '3xl', md: '4xl', lg: '5xl', xl: '6xl' }}

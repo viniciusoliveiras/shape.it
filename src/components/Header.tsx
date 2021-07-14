@@ -58,23 +58,17 @@ export function Header() {
 
   return (
     <Flex
-      mt={{ base: '2', md: '4', xl: '12' }}
+      mt={{ base: '6', md: '8', xl: '12' }}
       mb="16"
       mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
       justifyContent="space-between"
       align="center"
     >
-      {!isMobile && (
-        <Image
-          src="/images/logo.svg"
-          w={{ md: '72', lg: '80', xl: '96' }}
-          alt="shape.it"
-        />
-      )}
-
-      {isMobile && (
-        <Image src="/images/logo-mobile.svg" w="32" alt="shape.it" />
-      )}
+      <Image
+        src="/images/logo.svg"
+        w={{ base: '32', md: '40', lg: '48', xl: '60' }}
+        alt="shape.it"
+      />
 
       {!isMobile && (
         <Flex align="center">
@@ -140,15 +134,15 @@ export function Header() {
               src={loggedUser?.avatar_url}
               alt={loggedUser?.name}
               borderRadius="full"
-              boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
+              boxSize="10"
               mr={{ md: '4', lg: '6', xl: '8' }}
             />
           ) : (
             <IconButton
               border="0"
               background="none"
-              w="14"
-              h="14"
+              w="10"
+              h="10"
               mr="4"
               aria-label="Usuário"
               icon={<RiUser3Fill fontSize="2rem" />}
@@ -159,8 +153,8 @@ export function Header() {
             border="0"
             background="none"
             borderRadius="6"
-            w="14"
-            h="14"
+            w="10"
+            h="10"
             _hover={{
               transition: 0.2,
               filter: 'brightness(0.9)',
@@ -175,8 +169,8 @@ export function Header() {
             border="0"
             background="none"
             borderRadius="6"
-            w="14"
-            h="14"
+            w="10"
+            h="10"
             _hover={{
               transition: 0.2,
               filter: 'brightness(0.9)',
