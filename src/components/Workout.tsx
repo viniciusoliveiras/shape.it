@@ -4,9 +4,15 @@ interface WorkoutProps {
   title: string;
   exerciseNumber: number;
   description: string;
+  handleClick?: () => void;
 }
 
-export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
+export function Workout({
+  title,
+  exerciseNumber,
+  description,
+  handleClick,
+}: WorkoutProps) {
   return (
     <Flex
       flexDirection="column"
@@ -17,6 +23,7 @@ export function Workout({ title, exerciseNumber, description }: WorkoutProps) {
       minHeight={{ base: '40', md: '44', lg: '48', xl: '56' }}
       justify="center"
       _hover={{ transition: 0.2, filter: 'brightness(0.9)', cursor: 'pointer' }}
+      onClick={handleClick}
     >
       <Flex justify="space-around" align="center">
         <Text
