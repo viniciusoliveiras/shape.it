@@ -3,15 +3,16 @@
 import { Flex, Image, Text } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import Head from 'next/head';
+import Router from 'next/router';
 import React, { useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
-import { AlertConfirm } from '../components/AlertConfirm';
-import { Header } from '../components/Header';
-import { Sidebar } from '../components/Sidebar';
-import { Workout } from '../components/Workout';
-import { WorkoutGrid } from '../components/WorkoutGrid';
-import { useAuth } from '../hooks/useAuth';
+import { AlertConfirm } from '../../components/AlertConfirm';
+import { Header } from '../../components/Header';
+import { Sidebar } from '../../components/Sidebar';
+import { Workout } from '../../components/Workout';
+import { WorkoutGrid } from '../../components/WorkoutGrid';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState<string>();
@@ -78,6 +79,7 @@ export default function Workouts() {
               title="Série A"
               exerciseNumber={8}
               description="Pellentesque lorem nulla, sollicitudin sed nulla vel, porttitor consequat purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi."
+              handleClick={() => Router.push('/workouts/serie-a')}
             />
 
             <Workout

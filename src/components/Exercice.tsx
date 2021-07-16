@@ -1,18 +1,8 @@
+/* eslint-disable no-use-before-define */
 import { Flex, Text } from '@chakra-ui/react';
+import React from 'react';
 
-interface WorkoutProps {
-  title: string;
-  exerciseNumber: number;
-  description: string;
-  handleClick?: () => void;
-}
-
-export function Workout({
-  title,
-  exerciseNumber,
-  description,
-  handleClick,
-}: WorkoutProps) {
+export function Exercice() {
   return (
     <Flex
       flexDirection="column"
@@ -20,22 +10,17 @@ export function Workout({
       borderRadius="1rem"
       px={{ base: '4', md: '6', lg: '8', xl: '12' }}
       py={{ base: '3', md: '5', lg: '7', xl: '9' }}
-      minHeight={{ base: '40', md: '44', lg: '48', xl: '56' }}
+      h="32"
       justify="center"
       _hover={{ transition: 0.2, filter: 'brightness(0.9)', cursor: 'pointer' }}
-      onClick={handleClick}
     >
       <Flex justify="space-around" align="center">
         <Text
           fontWeight="medium"
           fontSize={{ base: 'xl', lg: '2xl', xl: '3xl' }}
           color="white"
-        >
-          {title}
-        </Text>
-        <Text fontSize={{ base: 'sm', lg: 'lg', xl: 'xl' }} color="blue.500">
-          {exerciseNumber} {exerciseNumber > 1 ? 'exercícios' : 'exercício'}
-        </Text>
+        />
+        <Text fontSize={{ base: 'sm', lg: 'lg', xl: 'xl' }} color="blue.500" />
       </Flex>
       <Text
         maxW="96"
@@ -44,9 +29,7 @@ export function Workout({
         fontWeight="medium"
         fontSize={{ base: 'sm', lg: 'lg', xl: 'xl' }}
         alignSelf="center"
-      >
-        {description}
-      </Text>
+      />
     </Flex>
   );
 }
