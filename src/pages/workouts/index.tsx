@@ -33,10 +33,7 @@ export default function Workouts() {
 
       <Header />
 
-      <Flex
-        mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
-        mb={{ base: '4', md: '8', xl: '12' }}
-      >
+      <Flex mx={{ base: '6', md: '8', lg: '12', xl: '24' }}>
         {!workouts && !loading && (
           <Flex flexDirection="column" align="center" flex="1">
             <Image
