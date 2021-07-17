@@ -16,6 +16,7 @@ import { RiMenuLine, RiLogoutBoxRLine, RiUser3Fill } from 'react-icons/ri';
 import { useAuth } from '../hooks/useAuth';
 import { useSidebarDrawer } from '../hooks/useSidebarDrawer';
 import { supabase } from '../services/supabase';
+import { Navigation } from './Navigation';
 
 type LoggedUserType = {
   name?: string;
@@ -28,7 +29,11 @@ export function Header() {
   const { onOpen } = useSidebarDrawer();
   const isMobile = useBreakpointValue({
     base: true,
-    md: false,
+    lg: false,
+  });
+  const showFullLogo = useBreakpointValue({
+    base: false,
+    md: true,
   });
   const [loggedUser, setLoggedUser] = useState<LoggedUserType>();
 
@@ -65,13 +70,20 @@ export function Header() {
       align="center"
       bgColor="gray.700"
     >
+      {showFullLogo ? (
+        <Image
+          src="/images/logo.svg"
+          w={{ base: '32', md: '40', lg: '48', xl: '60' }}
+          alt="shape.it"
+        />
+      ) : (
+        <Image src="/images/mobile-logo.svg" w="20" alt="shape.it" />
+      )}
+
       {!isMobile && (
         <>
-          <Image
-            src="/images/logo.svg"
-            w={{ base: '32', md: '40', lg: '48', xl: '60' }}
-            alt="shape.it"
-          />
+          <Navigation />
+
           <Flex align="center">
             <Box mr={{ md: '4', lg: '7' }}>
               <Text
@@ -131,7 +143,7 @@ export function Header() {
 
       {isMobile && (
         <>
-          <Image src="/images/mobile-logo.svg" w="20" alt="shape.it" />
+          <Navigation />
           <Grid templateColumns="repeat(3, 1fr)" gap="1">
             {loggedUser?.avatar_url ? (
               <Image

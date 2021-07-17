@@ -1,5 +1,5 @@
+/* eslint-disable no-use-before-define */
 import {
-  Box,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -8,15 +8,16 @@ import {
   DrawerOverlay,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import React from 'react';
 
 import { useSidebarDrawer } from '../../hooks/useSidebarDrawer';
-import { SidebarNav } from './SidebarNav';
+import { NavStack } from './NavStack';
 
-export function Sidebar() {
+export function Navigation() {
   const { isOpen, onClose } = useSidebarDrawer();
   const isDrawerSidebar = useBreakpointValue({
     base: true,
-    md: false,
+    lg: false,
   });
 
   if (isDrawerSidebar) {
@@ -31,10 +32,10 @@ export function Sidebar() {
         <DrawerOverlay>
           <DrawerContent bg="gray.900" p="4">
             <DrawerCloseButton mt="6" />
-            <DrawerHeader fontSize="3xl">Navegação</DrawerHeader>
+            <DrawerHeader fontSize="2xl">Navegação</DrawerHeader>
 
             <DrawerBody mt="6">
-              <SidebarNav />
+              <NavStack />
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>
@@ -42,9 +43,5 @@ export function Sidebar() {
     );
   }
 
-  return (
-    <Box as="aside" w="64" mr="8">
-      <SidebarNav />
-    </Box>
-  );
+  return <NavStack />;
 }

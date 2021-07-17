@@ -7,7 +7,6 @@ import { RiArrowLeftSLine, RiMenuAddLine } from 'react-icons/ri';
 
 import { Exercice } from '../../components/Exercice';
 import { Header } from '../../components/Header';
-import { Sidebar } from '../../components/Sidebar';
 
 export default function SingleWorkout() {
   const router = useRouter();
@@ -22,8 +21,6 @@ export default function SingleWorkout() {
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
         mb={{ base: '4', md: '8', xl: '12' }}
       >
-        <Sidebar />
-
         <Flex flexDirection="column" w="100%">
           <Flex alignSelf="flex-start" justify="space-between" w="100%">
             <Flex align="center">
