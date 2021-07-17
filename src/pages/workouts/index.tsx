@@ -9,7 +9,6 @@ import PulseLoader from 'react-spinners/PulseLoader';
 
 import { AlertConfirm } from '../../components/AlertConfirm';
 import { Header } from '../../components/Header';
-import { Sidebar } from '../../components/Sidebar';
 import { Workout } from '../../components/Workout';
 import { WorkoutGrid } from '../../components/WorkoutGrid';
 import { useAuth } from '../../hooks/useAuth';
@@ -33,12 +32,11 @@ export default function Workouts() {
       <AlertConfirm setWorkouts={setWorkouts} />
 
       <Header />
+
       <Flex
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
-        mb={{ base: '4', md: '8', xl: '12' }}
+        mb={{ base: '8', lg: '10', xl: '0' }}
       >
-        <Sidebar />
-
         {!workouts && !loading && (
           <Flex flexDirection="column" align="center" flex="1">
             <Image

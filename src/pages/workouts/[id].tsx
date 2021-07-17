@@ -7,7 +7,6 @@ import { RiArrowLeftSLine, RiMenuAddLine } from 'react-icons/ri';
 
 import { Exercice } from '../../components/Exercice';
 import { Header } from '../../components/Header';
-import { Sidebar } from '../../components/Sidebar';
 
 export default function SingleWorkout() {
   const router = useRouter();
@@ -20,10 +19,8 @@ export default function SingleWorkout() {
       <Header />
       <Flex
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
-        mb={{ base: '4', md: '8', xl: '12' }}
+        mb={{ base: '8', lg: '10', xl: '0' }}
       >
-        <Sidebar />
-
         <Flex flexDirection="column" w="100%">
           <Flex alignSelf="flex-start" justify="space-between" w="100%">
             <Flex align="center">
@@ -88,10 +85,10 @@ export default function SingleWorkout() {
             width="100%"
             mt="10"
           >
-            <Exercice />
-            <Exercice />
-            <Exercice />
-            <Exercice />
+            <Exercice title="supino ap | cluster" />
+            <Exercice title="supino 30º" />
+            <Exercice title="extensão de ombros + puxada romana" />
+            <Exercice title="tríceps ap + francês HBC" />
           </Grid>
         </Flex>
       </Flex>

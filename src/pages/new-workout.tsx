@@ -5,7 +5,6 @@ import React from 'react';
 
 import { Header } from '../components/Header';
 import { NewWorkoutForm } from '../components/NewWorkoutForm';
-import { Sidebar } from '../components/Sidebar';
 
 export default function NewWorkout() {
   return (
@@ -17,9 +16,8 @@ export default function NewWorkout() {
       <Header />
       <Flex
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
-        mb={{ base: '4', md: '8', xl: '12' }}
+        mb={{ base: '8', lg: '10', xl: '0' }}
       >
-        <Sidebar />
         <NewWorkoutForm />
       </Flex>
     </>

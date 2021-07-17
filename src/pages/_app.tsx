@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthContextProvider } from '../contexts/AuthContext';
 import { SidebarDrawerProvider } from '../contexts/SidebarDrawerContent';
 import { theme } from '../styles/theme';
-import '../styles/input.scss';
+import '../styles/global.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

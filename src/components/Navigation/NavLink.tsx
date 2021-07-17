@@ -20,7 +20,11 @@ export function NavLink({ icon, children, href, ...rest }: NavLinkProps) {
     <ActiveLink href={href} passHref>
       <ChakraLink display="flex" alignItems="center" {...rest}>
         <Icon as={icon} fontSize="2.5rem" />
-        <Text ml="3.5" fontWeight="medium" fontSize={{ md: 'xl', lg: '2xl' }}>
+        <Text
+          ml="3.5"
+          fontWeight="medium"
+          fontSize={{ base: 'md', lg: 'lg', xl: 'xl' }}
+        >
           {children}
         </Text>
       </ChakraLink>
