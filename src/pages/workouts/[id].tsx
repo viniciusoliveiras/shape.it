@@ -88,10 +88,10 @@ export default function SingleWorkout() {
             width="100%"
             mt="10"
           >
-            <Exercice />
-            <Exercice />
-            <Exercice />
-            <Exercice />
+            <Exercice title="supino ap | cluster" />
+            <Exercice title="supino 30º" />
+            <Exercice title="extensão de ombros + puxada romana" />
+            <Exercice title="tríceps ap + francês HBC" />
           </Grid>
         </Flex>
       </Flex>
