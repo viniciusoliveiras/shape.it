@@ -33,6 +33,7 @@ export default function Workouts() {
       <AlertConfirm setWorkouts={setWorkouts} />
 
       <Header />
+
       <Flex
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
         mb={{ base: '4', md: '8', xl: '12' }}

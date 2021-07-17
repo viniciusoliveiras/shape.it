@@ -58,129 +58,134 @@ export function Header() {
 
   return (
     <Flex
-      mt={{ base: '6', md: '8', xl: '12' }}
-      mb="16"
-      mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
+      py="4"
+      px={{ base: '6', md: '8', lg: '12', xl: '24' }}
+      mb={{ base: '10', lg: '14' }}
       justifyContent="space-between"
       align="center"
+      bgColor="gray.700"
     >
-      <Image
-        src="/images/logo.svg"
-        w={{ base: '32', md: '40', lg: '48', xl: '60' }}
-        alt="shape.it"
-      />
-
       {!isMobile && (
-        <Flex align="center">
-          <Box mr={{ md: '4', lg: '7' }}>
-            <Text
-              textAlign="right"
-              color="gray.50"
-              fontSize={{ md: 'lg', lg: 'xl', xl: '2xl' }}
-            >
-              {loggedUser?.name}
-            </Text>
-            <Text
-              textAlign="right"
-              color="gray.100"
-              fontSize={{ md: 'md', lg: 'lg', xl: 'xl' }}
-            >
-              {loggedUser?.email}
-            </Text>
-          </Box>
+        <>
+          <Image
+            src="/images/logo.svg"
+            w={{ base: '32', md: '40', lg: '48', xl: '60' }}
+            alt="shape.it"
+          />
+          <Flex align="center">
+            <Box mr={{ md: '4', lg: '7' }}>
+              <Text
+                textAlign="right"
+                color="gray.50"
+                fontSize={{ md: 'lg', lg: 'xl', xl: '2xl' }}
+              >
+                {loggedUser?.name}
+              </Text>
+              <Text
+                textAlign="right"
+                color="gray.100"
+                fontSize={{ md: 'md', lg: 'lg', xl: 'xl' }}
+              >
+                {loggedUser?.email}
+              </Text>
+            </Box>
 
-          {loggedUser?.avatar_url ? (
-            <Image
-              src={loggedUser?.avatar_url}
-              alt={loggedUser?.name}
-              borderRadius="full"
-              boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
-              mr={{ md: '4', lg: '6', xl: '8' }}
-            />
-          ) : (
+            {loggedUser?.avatar_url ? (
+              <Image
+                src={loggedUser?.avatar_url}
+                alt={loggedUser?.name}
+                borderRadius="full"
+                boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
+                mr={{ md: '4', lg: '6', xl: '8' }}
+              />
+            ) : (
+              <IconButton
+                border="0"
+                background="none"
+                w="14"
+                h="14"
+                mr="4"
+                aria-label="Usuário"
+                icon={<RiUser3Fill fontSize="2rem" />}
+              />
+            )}
+
             <IconButton
               border="0"
               background="none"
+              borderRadius="6"
               w="14"
               h="14"
-              mr="4"
-              aria-label="Usuário"
-              icon={<RiUser3Fill fontSize="2rem" />}
+              _hover={{
+                transition: 0.2,
+                filter: 'brightness(0.9)',
+                background: 'gray.700',
+              }}
+              onClick={handleLogout}
+              aria-label="Sair"
+              icon={<RiLogoutBoxRLine fontSize="2rem" />}
             />
-          )}
-
-          <IconButton
-            border="0"
-            background="none"
-            borderRadius="6"
-            w="14"
-            h="14"
-            _hover={{
-              transition: 0.2,
-              filter: 'brightness(0.9)',
-              background: 'gray.700',
-            }}
-            onClick={handleLogout}
-            aria-label="Sair"
-            icon={<RiLogoutBoxRLine fontSize="2rem" />}
-          />
-        </Flex>
+          </Flex>
+        </>
       )}
 
       {isMobile && (
-        <Grid templateColumns="repeat(3, 1fr)" gap="1">
-          {loggedUser?.avatar_url ? (
-            <Image
-              src={loggedUser?.avatar_url}
-              alt={loggedUser?.name}
-              borderRadius="full"
-              boxSize="10"
-              mr={{ md: '4', lg: '6', xl: '8' }}
-            />
-          ) : (
+        <>
+          <Image src="/images/mobile-logo.svg" w="20" alt="shape.it" />
+          <Grid templateColumns="repeat(3, 1fr)" gap="1">
+            {loggedUser?.avatar_url ? (
+              <Image
+                src={loggedUser?.avatar_url}
+                alt={loggedUser?.name}
+                borderRadius="full"
+                boxSize="10"
+                mr={{ md: '4', lg: '6', xl: '8' }}
+              />
+            ) : (
+              <IconButton
+                border="0"
+                background="none"
+                w="10"
+                h="10"
+                mr="4"
+                aria-label="Usuário"
+                icon={<RiUser3Fill fontSize="2rem" />}
+              />
+            )}
+
             <IconButton
               border="0"
               background="none"
+              borderRadius="6"
               w="10"
               h="10"
-              mr="4"
-              aria-label="Usuário"
-              icon={<RiUser3Fill fontSize="2rem" />}
+              _hover={{
+                transition: 0.2,
+                filter: 'brightness(0.9)',
+                background: 'gray.700',
+              }}
+              onClick={onOpen}
+              aria-label="Abrir menu"
+              icon={<RiMenuLine fontSize="2rem" />}
             />
-          )}
 
-          <IconButton
-            border="0"
-            background="none"
-            borderRadius="6"
-            w="10"
-            h="10"
-            _hover={{
-              transition: 0.2,
-              filter: 'brightness(0.9)',
-              background: 'gray.700',
-            }}
-            onClick={onOpen}
-            aria-label="Abrir menu"
-            icon={<RiMenuLine fontSize="2rem" />}
-          />
-
-          <IconButton
-            border="0"
-            background="none"
-            borderRadius="6"
-            w="10"
-            h="10"
-            _hover={{
-              transition: 0.2,
-              filter: 'brightness(0.9)',
-              background: 'gray.700',
-            }}
-            onClick={handleLogout}
-            aria-label="Sair"
-            icon={<RiLogoutBoxRLine fontSize="2rem" />}
-          />
-        </Grid>
+            <IconButton
+              border="0"
+              background="none"
+              borderRadius="6"
+              w="10"
+              h="10"
+              _hover={{
+                transition: 0.2,
+                filter: 'brightness(0.9)',
+                background: 'gray.700',
+              }}
+              onClick={handleLogout}
+              aria-label="Sair"
+              icon={<RiLogoutBoxRLine fontSize="2rem" />}
+            />
+          </Grid>
+        </>
       )}
     </Flex>
   );
