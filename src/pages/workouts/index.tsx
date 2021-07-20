@@ -36,6 +36,7 @@ export default function Workouts() {
       <Flex
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
         mb={{ base: '8', lg: '10', xl: '0' }}
+        mt={{ base: '24', md: '28', lg: '32' }}
       >
         {!workouts && !loading && (
           <Flex flexDirection="column" align="center" flex="1">

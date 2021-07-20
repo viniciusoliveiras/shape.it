@@ -22,6 +22,7 @@ export default function Custom404() {
         align="center"
         justifyContent="space-around"
         h={{ base: '70vh', md: '100%' }}
+        mt={{ base: '24', lg: '28', xl: '32' }}
       >
         <Flex align="center" flexDirection="column">
           <Image

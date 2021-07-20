@@ -65,10 +65,15 @@ export function Header() {
     <Flex
       py="4"
       px={{ base: '6', md: '8', lg: '12', xl: '24' }}
-      mb={{ base: '10', lg: '14' }}
       justifyContent="space-between"
       align="center"
       bgColor="gray.700"
+      position="fixed"
+      top="0"
+      left="0"
+      width="100%"
+      zIndex="1"
+      boxShadow="rgb(18 18 20) 0px 1rem 2rem"
     >
       {showFullLogo ? (
         <Image

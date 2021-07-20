@@ -20,6 +20,7 @@ export default function SingleWorkout() {
       <Flex
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
         mb={{ base: '8', lg: '10', xl: '0' }}
+        mt={{ base: '24', lg: '28', xl: '32' }}
       >
         <Flex flexDirection="column" w="100%">
           <Flex alignSelf="flex-start" justify="space-between" w="100%">
