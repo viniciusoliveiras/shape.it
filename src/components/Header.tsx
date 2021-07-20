@@ -85,125 +85,70 @@ export function Header() {
         <Image src="/images/mobile-logo.svg" w="20" alt="shape.it" />
       )}
 
-      {!isMobile && (
-        <>
-          <Navigation />
+      <Navigation />
 
-          <Flex align="center">
-            <Box mr={{ md: '4', lg: '7' }}>
-              <Text
-                textAlign="right"
-                color="gray.50"
-                fontSize={{ md: 'lg', lg: 'xl', xl: '2xl' }}
-              >
-                {loggedUser?.name}
-              </Text>
-              <Text
-                textAlign="right"
-                color="gray.100"
-                fontSize={{ md: 'md', lg: 'lg', xl: 'xl' }}
-              >
-                {loggedUser?.email}
-              </Text>
-            </Box>
+      <Grid
+        templateColumns="repeat(3, 1fr)"
+        gap={{ base: '3', md: '6', lg: '9' }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        {isMobile && (
+          <IconButton
+            border="0"
+            background="none"
+            borderRadius="6"
+            w="10"
+            h="10"
+            _hover={{
+              transition: 0.2,
+              filter: 'brightness(0.9)',
+              background: 'gray.700',
+            }}
+            onClick={onOpen}
+            aria-label="Abrir menu"
+            fontSize={{ base: '3xl', lg: '4xl', xl: '5xl' }}
+            icon={<RiMenuLine />}
+          />
+        )}
 
-            {loggedUser?.avatar_url ? (
-              <Image
-                src={loggedUser?.avatar_url}
-                alt={loggedUser?.name}
-                borderRadius="full"
-                boxSize={{ base: '12', md: '14', lg: '16', xl: '20' }}
-                mr={{ md: '4', lg: '6', xl: '8' }}
-              />
-            ) : (
-              <IconButton
-                border="0"
-                background="none"
-                w="14"
-                h="14"
-                mr="4"
-                aria-label="Usuário"
-                icon={<RiUser3Fill fontSize="2rem" />}
-              />
-            )}
+        <IconButton
+          border="0"
+          background="none"
+          borderRadius="6"
+          w="10"
+          h="10"
+          _hover={{
+            transition: 0.2,
+            filter: 'brightness(0.9)',
+            background: 'gray.700',
+          }}
+          onClick={handleLogout}
+          aria-label="Sair"
+          fontSize={{ base: '3xl', lg: '4xl', xl: '5xl' }}
+          icon={<RiLogoutBoxRLine />}
+        />
 
-            <IconButton
-              border="0"
-              background="none"
-              borderRadius="6"
-              w="14"
-              h="14"
-              _hover={{
-                transition: 0.2,
-                filter: 'brightness(0.9)',
-                background: 'gray.700',
-              }}
-              onClick={handleLogout}
-              aria-label="Sair"
-              icon={<RiLogoutBoxRLine fontSize="2rem" />}
-            />
-          </Flex>
-        </>
-      )}
-
-      {isMobile && (
-        <>
-          <Navigation />
-          <Grid templateColumns="repeat(3, 1fr)" gap="1">
-            {loggedUser?.avatar_url ? (
-              <Image
-                src={loggedUser?.avatar_url}
-                alt={loggedUser?.name}
-                borderRadius="full"
-                boxSize="10"
-                mr={{ md: '4', lg: '6', xl: '8' }}
-              />
-            ) : (
-              <IconButton
-                border="0"
-                background="none"
-                w="10"
-                h="10"
-                mr="4"
-                aria-label="Usuário"
-                icon={<RiUser3Fill fontSize="2rem" />}
-              />
-            )}
-
-            <IconButton
-              border="0"
-              background="none"
-              borderRadius="6"
-              w="10"
-              h="10"
-              _hover={{
-                transition: 0.2,
-                filter: 'brightness(0.9)',
-                background: 'gray.700',
-              }}
-              onClick={onOpen}
-              aria-label="Abrir menu"
-              icon={<RiMenuLine fontSize="2rem" />}
-            />
-
-            <IconButton
-              border="0"
-              background="none"
-              borderRadius="6"
-              w="10"
-              h="10"
-              _hover={{
-                transition: 0.2,
-                filter: 'brightness(0.9)',
-                background: 'gray.700',
-              }}
-              onClick={handleLogout}
-              aria-label="Sair"
-              icon={<RiLogoutBoxRLine fontSize="2rem" />}
-            />
-          </Grid>
-        </>
-      )}
+        {loggedUser?.avatar_url ? (
+          <Image
+            src={loggedUser?.avatar_url}
+            alt={loggedUser?.name}
+            borderRadius="full"
+            boxSize={{ base: '10', lg: '12', xl: '14' }}
+          />
+        ) : (
+          <IconButton
+            border="0"
+            background="none"
+            w="10"
+            h="10"
+            aria-label="Usuário"
+            fontSize={{ base: '3xl', lg: '4xl', xl: '5xl' }}
+            icon={<RiUser3Fill />}
+          />
+        )}
+      </Grid>
     </Flex>
   );
 }
