@@ -21,7 +21,7 @@ export function LoginButton({ children, marginTop }: ButtonProps) {
       marginTop={marginTop}
       bgColor="gray.700"
       width={{ base: '2xs', md: 'xs', lg: 'sm' }}
-      height={{ base: '12', md: '16' }}
+      height={{ base: '14', md: '16' }}
       align="center"
       justify="space-evenly"
       fontWeight="medium"
