@@ -9,31 +9,24 @@
 Clone this repository
 
 ```bash
-
 git clone https://github.com/viniciusoliveiras/shape.it.git
-
 ```
 
 Access the project folder on your terminal
 
 ```bash
-
 cd shape.it
-
 ```
 Install the dependencies
-```bash
 
+```bash
  yarn
- 
 ```
 
 Run the application
 
 ```bash
-
 yarn dev
-
 ```
 Open http://localhost:3000 on your browser to see the app running. <br/>
 <br/>
