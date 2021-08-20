@@ -6,21 +6,35 @@
 
 ## How to run
 
+Clone this repository
+
 ```bash
 
-# Clone this repository
-$ https://github.com/viniciusoliveiras/shape.it.git
-
-# Access the project folder on your terminal/cmd
-$ cd shape.it
-
-# Install the dependencies
-$ yarn
-
-# Run the application
-$ yarn dev
-
-# Open http://localhost:3000 on your browser to see the app running
+git clone https://github.com/viniciusoliveiras/shape.it.git
 
 ```
+
+Access the project folder on your terminal
+
+```bash
+
+cd shape.it
+
+```
+Install the dependencies
+```bash
+
+ yarn
+ 
+```
+
+Run the application
+
+```bash
+
+yarn dev
+
+```
+Open http://localhost:3000 on your browser to see the app running. <br/>
+<br/>
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
