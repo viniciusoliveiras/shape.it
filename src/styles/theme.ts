@@ -13,7 +13,8 @@ export const theme = extendTheme({
     gray: {
       '50': '#e1e1e6' /* title */,
       '100': '#cbd5e0' /* text */,
-      '700': '#1f2729' /* shape */,
+      '200': '#51595B',
+      '700': '#292b2b' /* shape */,
       '900': '#121414' /* background */,
     },
     yellow: {
@@ -24,6 +25,9 @@ export const theme = extendTheme({
     },
     green: {
       '500': '#04d361',
+    },
+    red: {
+      '500': '#FB6161',
     },
   },
   fonts: {

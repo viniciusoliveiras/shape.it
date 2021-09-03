@@ -1,0 +1,24 @@
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  transition:.3s;
+}
+::-webkit-scrollbar-thumb {
+  background: #e1e1e6;
+}
+::-webkit-scrollbar-thumb:hover{
+  background: #61dcfb;
+}
+::-webkit-scrollbar-track{
+  background: #292b2b;
+}
+
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #121414 inset;
+  -webkit-text-fill-color: #cbd5e0 !important;
+  border: 0;
+}
