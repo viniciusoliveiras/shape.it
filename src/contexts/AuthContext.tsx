@@ -43,6 +43,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
           path: '/',
         }
       );
+
+      setCookie(undefined, 'shape-it.user-id', newSession?.user?.id || '', {
+        path: '/',
+      });
     });
 
     return () => {

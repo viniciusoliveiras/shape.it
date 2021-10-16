@@ -1,14 +1,15 @@
 /* eslint-disable no-use-before-define */
 import { Button, Flex, IconButton, Text, Grid } from '@chakra-ui/react';
+import { PostgrestError } from '@supabase/supabase-js';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import nookies from 'nookies';
+import React from 'react';
 import { RiArrowLeftSLine, RiMenuAddLine } from 'react-icons/ri';
 
 import { Exercice } from '../../components/Exercice';
 import { Header } from '../../components/Header';
-import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../services/supabase';
 
 type ExerciceData = {
@@ -19,30 +20,23 @@ type ExerciceData = {
   peso: number;
 };
 
-export default function SingleWorkout() {
+type Workout = {
+  nome: string;
+};
+
+interface SingleWorkoutProps {
+  exercices: ExerciceData[];
+  erro: PostgrestError | null | undefined;
+  workout: Workout[];
+}
+
+export default function SingleWorkout({
+  erro,
+  workout,
+  exercices,
+}: SingleWorkoutProps) {
   const router = useRouter();
-  const { user } = useAuth();
-  const [exercices, setExercices] = useState<ExerciceData[]>();
 
-  useEffect(() => {
-    async function fetchData() {
-      const { data, error } = await supabase
-        .from('exercicio')
-        .select('id, nome, serie, repeticoes, peso')
-        .eq('usuario', user?.id)
-        .eq('treino', router.query.id);
-
-      if (data) {
-        setExercices(data);
-      }
-
-      if (error) {
-        toast.error(error.message);
-      }
-    }
-
-    fetchData();
-  }, [user?.id, router.query.id]);
   return (
     <>
       <Head>
@@ -78,7 +72,7 @@ export default function SingleWorkout() {
                 fontSize={{ base: 'xl', lg: '3xl', xl: '4xl' }}
                 fontWeight="bold"
               >
-                Série A
+                {workout[0].nome}
               </Text>
             </Flex>
 
@@ -119,7 +113,8 @@ export default function SingleWorkout() {
             width="100%"
             mt="10"
           >
-            {exercices &&
+            {!erro &&
+              exercices &&
               exercices.map(singleExercice => (
                 <Exercice
                   key={singleExercice.id}
@@ -130,8 +125,49 @@ export default function SingleWorkout() {
                 />
               ))}
           </Grid>
+
+          {erro && erro !== undefined && (
+            <Flex flexDirection="column" align="center" flex="1">
+              <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
+                Tivemos um problema ao obter seus exercícios...
+              </Text>
+              <Text fontWeight="medium" fontSize="md" lineHeight="base" mt="1">
+                Recarregue a página ou tente novamente mais tarde.
+              </Text>
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const cookies = nookies.get(ctx);
+  let exercices;
+  let workout;
+  let erro;
+
+  if (ctx.params) {
+    const { id } = ctx.params;
+
+    const { data, error } = await supabase
+      .from('exercicio')
+      .select('id, nome, serie, repeticoes, peso')
+      .eq('treino', id)
+      .eq('usuario', cookies['shape-it.user-id']);
+
+    const workoutResponse = await supabase
+      .from('treino')
+      .select('nome')
+      .eq('id', id);
+
+    exercices = data;
+    erro = error;
+    workout = workoutResponse?.data;
+  }
+
+  return {
+    props: { exercices, workout, erro },
+  };
+};

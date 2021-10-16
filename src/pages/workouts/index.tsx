@@ -5,7 +5,6 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Router from 'next/router';
 import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import { Header } from '../../components/Header';
@@ -37,7 +36,7 @@ export default function Workouts() {
       }
 
       if (error) {
-        toast.error(error.message);
+        fetchData();
       }
     }
 
@@ -47,7 +46,6 @@ export default function Workouts() {
   const override = css`
     display: block;
     margin: 0 auto;
-    border-color: red;
   `;
 
   return (
