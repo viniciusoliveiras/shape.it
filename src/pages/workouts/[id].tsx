@@ -126,7 +126,7 @@ export default function SingleWorkout({
               ))}
           </Grid>
 
-          {erro && erro !== undefined && (
+          {erro && erro !== undefined && erro.code !== '22P02' && (
             <Flex flexDirection="column" align="center" flex="1">
               <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
                 Tivemos um problema ao obter seus exercícios...
@@ -134,6 +134,25 @@ export default function SingleWorkout({
               <Text fontWeight="medium" fontSize="md" lineHeight="base" mt="1">
                 Recarregue a página ou tente novamente mais tarde.
               </Text>
+            </Flex>
+          )}
+
+          {erro && erro !== undefined && erro.code === '22P02' && (
+            <Flex flexDirection="column" align="center" flex="1">
+              <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
+                Nenhum exercício criado.
+              </Text>
+              <Button
+                background="none"
+                _hover={{
+                  transition: 0.2,
+                  filter: 'brightness(1.2)',
+                  background: 'gray.700',
+                }}
+                mt="4"
+              >
+                Criar exercício
+              </Button>
             </Flex>
           )}
         </Flex>
@@ -153,14 +172,14 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 
     const { data, error } = await supabase
       .from('exercicio')
-      .select('id, nome, serie, repeticoes, peso')
-      .eq('treino', id)
-      .eq('usuario', cookies['shape-it.user-id']);
+      .select('*')
+      .eq('treino', id);
 
     const workoutResponse = await supabase
       .from('treino')
       .select('nome')
-      .eq('id', id);
+      .eq('id', id)
+      .eq('usuario', cookies['shape-it.user-id']);
 
     exercices = data;
     erro = error;

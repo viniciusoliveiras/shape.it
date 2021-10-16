@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { RiErrorWarningFill } from 'react-icons/ri';
+import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
 import { useAuth } from '../hooks/useAuth';
@@ -45,6 +46,7 @@ export function NewWorkoutForm() {
 
     await supabase.from('treino').insert([
       {
+        id: uuidv4(),
         nome: values.name,
         descricao: values.description,
         usuario: user?.id,
