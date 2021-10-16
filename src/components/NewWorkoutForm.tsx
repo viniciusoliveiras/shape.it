@@ -14,6 +14,9 @@ import toast from 'react-hot-toast';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import * as yup from 'yup';
 
+import { useAuth } from '../hooks/useAuth';
+import { supabase } from '../services/supabase';
+
 interface WorkoutFormData {
   name: string;
   description?: string;
@@ -35,14 +38,25 @@ export function NewWorkoutForm() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth();
 
-  const createWorkout: SubmitHandler<WorkoutFormData> = async data => {
+  const createWorkout: SubmitHandler<WorkoutFormData> = async values => {
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    await supabase.from('treino').insert([
+      {
+        nome: values.name,
+        descricao: values.description,
+        usuario: user?.id,
+      },
+    ]);
+
     setIsLoading(false);
-    console.log('Workout created', data);
+
     reset();
+
     Router.push('/workouts');
+
     toast.success('Treino criado');
   };
 

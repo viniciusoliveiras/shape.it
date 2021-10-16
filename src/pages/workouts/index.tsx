@@ -26,17 +26,13 @@ export default function Workouts() {
 
   useEffect(() => {
     async function fetchData() {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('treino')
         .select('*')
         .eq('usuario', user?.id);
 
       if (data) {
         setWorkouts(data);
-      }
-
-      if (error) {
-        fetchData();
       }
     }
 
@@ -61,7 +57,7 @@ export default function Workouts() {
         mb={{ base: '8', lg: '10', xl: '0' }}
         mt={{ base: '24', md: '28', lg: '32' }}
       >
-        {!workouts && !loading && (
+        {workouts?.length === 0 && !loading && (
           <Flex flexDirection="column" align="center" flex="1">
             <Image
               src="/images/weightlifting.png"
@@ -77,7 +73,7 @@ export default function Workouts() {
           </Flex>
         )}
 
-        {!workouts && loading && (
+        {workouts?.length === 0 && loading && (
           <PulseLoader
             color="#eba417"
             loading={loading}
@@ -95,7 +91,7 @@ export default function Workouts() {
           />
         )}
 
-        {workouts && !loading && (
+        {workouts && workouts?.length > 0 && !loading && (
           <WorkoutGrid>
             {workouts.map(singleWorkout => (
               <Workout
