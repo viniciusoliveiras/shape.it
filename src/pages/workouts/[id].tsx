@@ -2,14 +2,47 @@
 import { Button, Flex, IconButton, Text, Grid } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { RiArrowLeftSLine, RiMenuAddLine } from 'react-icons/ri';
 
 import { Exercice } from '../../components/Exercice';
 import { Header } from '../../components/Header';
+import { useAuth } from '../../hooks/useAuth';
+import { supabase } from '../../services/supabase';
+
+type ExerciceData = {
+  id: number;
+  nome: string;
+  serie: number;
+  repeticoes: string;
+  peso: number;
+};
 
 export default function SingleWorkout() {
   const router = useRouter();
+  const { user } = useAuth();
+  const [exercices, setExercices] = useState<ExerciceData[]>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data, error } = await supabase
+        .from('exercicio')
+        .select('id, nome, serie, repeticoes, peso')
+        .eq('usuario', user?.id)
+        .eq('treino', router.query.id);
+
+      if (data) {
+        setExercices(data);
+      }
+
+      if (error) {
+        toast.error(error.message);
+      }
+    }
+
+    fetchData();
+  }, [user?.id, router.query.id]);
   return (
     <>
       <Head>
@@ -86,10 +119,16 @@ export default function SingleWorkout() {
             width="100%"
             mt="10"
           >
-            <Exercice title="supino ap | cluster" />
-            <Exercice title="supino 30º" />
-            <Exercice title="extensão de ombros + puxada romana" />
-            <Exercice title="tríceps ap + francês HBC" />
+            {exercices &&
+              exercices.map(singleExercice => (
+                <Exercice
+                  key={singleExercice.id}
+                  nome={singleExercice.nome}
+                  peso={singleExercice.peso}
+                  repeticoes={singleExercice.repeticoes}
+                  serie={singleExercice.serie}
+                />
+              ))}
           </Grid>
         </Flex>
       </Flex>

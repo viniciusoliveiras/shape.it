@@ -15,10 +15,13 @@ import { CgGym } from 'react-icons/cg';
 import { RiDeleteBinLine, RiEditLine, RiMoreLine } from 'react-icons/ri';
 
 interface ExerciceProps {
-  title: string;
+  nome: string;
+  serie: number;
+  repeticoes: string;
+  peso: number;
 }
 
-export function Exercice({ title }: ExerciceProps) {
+export function Exercice({ nome, peso, repeticoes, serie }: ExerciceProps) {
   const showGymIcon = useBreakpointValue({ base: true, md: false, lg: true });
 
   return (
@@ -60,59 +63,24 @@ export function Exercice({ title }: ExerciceProps) {
             fontSize={{ base: 'sm', lg: 'md', xl: 'lg' }}
             color="white"
           >
-            {title}
+            {nome}
           </Text>
           <Text
             fontSize={{ base: 'xs', lg: 'sm', xl: 'md' }}
             fontWeight="light"
             color="gray.50"
           >
-            2 x 5 x 5
+            {serie} x {repeticoes}
           </Text>
           <Text
             fontSize={{ base: 'xs', lg: 'sm', xl: 'md' }}
             fontWeight="light"
             color="gray.50"
           >
-            44 kg
+            {peso} kg
           </Text>
         </Flex>
         <Flex>
-          {/* <IconButton
-            border="0"
-            background="none"
-            borderRadius="6"
-            w="12"
-            h="12"
-            _hover={{
-              transition: 0.2,
-              filter: 'brightness(1.5)',
-              background: 'gray.700',
-            }}
-            onClick={() => console.log('Editar exercício')}
-            aria-label="Editar exercício"
-            color="blue.500"
-            fontSize="2xl"
-            icon={<RiEditLine />}
-          />
-
-          <IconButton
-            border="0"
-            background="none"
-            borderRadius="6"
-            w="12"
-            h="12"
-            _hover={{
-              transition: 0.2,
-              filter: 'brightness(1.5)',
-              background: 'gray.700',
-            }}
-            onClick={() => console.log('Excluir exercício')}
-            aria-label="Excluir exercício"
-            color="red.500"
-            fontSize="2xl"
-            icon={<RiDeleteBinLine />}
-          /> */}
           <Menu>
             <MenuButton
               as={Button}

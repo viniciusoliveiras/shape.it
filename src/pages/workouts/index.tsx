@@ -4,18 +4,45 @@ import { Flex, Image, Text } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Router from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import PulseLoader from 'react-spinners/PulseLoader';
 
-import { AlertConfirm } from '../../components/AlertConfirm';
 import { Header } from '../../components/Header';
 import { Workout } from '../../components/Workout';
 import { WorkoutGrid } from '../../components/WorkoutGrid';
 import { useAuth } from '../../hooks/useAuth';
+import { supabase } from '../../services/supabase';
+
+type WorkoutData = {
+  descricao: string;
+  id: number;
+  nome: string;
+  usuario: string;
+};
 
 export default function Workouts() {
-  const [workouts, setWorkouts] = useState<string>();
-  const { loading } = useAuth();
+  const [workouts, setWorkouts] = useState<WorkoutData[]>();
+  const { loading, user } = useAuth();
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data, error } = await supabase
+        .from('treino')
+        .select('*')
+        .eq('usuario', user?.id);
+
+      if (data) {
+        setWorkouts(data);
+      }
+
+      if (error) {
+        toast.error(error.message);
+      }
+    }
+
+    fetchData();
+  }, [user?.id]);
 
   const override = css`
     display: block;
@@ -28,8 +55,6 @@ export default function Workouts() {
       <Head>
         <title>shape.it</title>
       </Head>
-
-      <AlertConfirm setWorkouts={setWorkouts} />
 
       <Header />
 
@@ -74,30 +99,14 @@ export default function Workouts() {
 
         {workouts && !loading && (
           <WorkoutGrid>
-            <Workout
-              title="Série A"
-              exerciseNumber={8}
-              description="Pellentesque lorem nulla, sollicitudin sed nulla vel, porttitor consequat purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi."
-              handleClick={() => Router.push('/workouts/serie-a')}
-            />
-
-            <Workout
-              title="Série B"
-              exerciseNumber={6}
-              description="Maecenas sit amet eros maximus neque varius aliquet nec a enim. Cras viverra erat a quam pretium pellentesque. Mauris vel magna quis sem ultricies consequat."
-            />
-
-            <Workout
-              title="Série C"
-              exerciseNumber={10}
-              description="Fusce efficitur enim vitae lorem suscipit, sit amet dapibus diam ultrices. Duis nec ex vel velit aliquet facilisis et cursus urna."
-            />
-
-            <Workout
-              title="Série D"
-              exerciseNumber={1}
-              description="In a est accumsan, blandit magna nec, tincidunt arcu. Aliquam pellentesque lectus in turpis congue mattis. Proin non fringilla leo, nec malesuada dui."
-            />
+            {workouts.map(singleWorkout => (
+              <Workout
+                key={singleWorkout.id}
+                title={singleWorkout.nome}
+                description={singleWorkout.descricao}
+                handleClick={() => Router.push(`/workouts/${singleWorkout.id}`)}
+              />
+            ))}
           </WorkoutGrid>
         )}
       </Flex>
