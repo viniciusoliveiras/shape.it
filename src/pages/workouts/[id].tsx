@@ -1,15 +1,35 @@
 /* eslint-disable no-use-before-define */
-import { Button, Flex, IconButton, Text, Grid } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  IconButton,
+  Text,
+  Grid,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  useDisclosure,
+  Stack,
+} from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { PostgrestError } from '@supabase/supabase-js';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
-import React from 'react';
-import { RiArrowLeftSLine, RiMenuAddLine } from 'react-icons/ri';
+import React, { useEffect, useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { RiArrowLeftSLine } from 'react-icons/ri';
+import { v4 as uuidv4 } from 'uuid';
+import * as yup from 'yup';
 
 import { Exercice } from '../../components/Exercice';
 import { Header } from '../../components/Header';
+import { Input } from '../../components/input';
+import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../services/supabase';
 
 type ExerciceData = {
@@ -30,12 +50,69 @@ interface SingleWorkoutProps {
   workout: Workout[];
 }
 
+interface CreateWorkoutData {
+  name: string;
+  series: number;
+  reps: string;
+  weight: number;
+}
+
+const schema = yup.object({
+  name: yup.string().required('Campo obrigatório'),
+  series: yup.string().required('Campo obrigatório'),
+  reps: yup.string().required('Campo obrigatório'),
+  weight: yup.string(),
+});
+
 export default function SingleWorkout({
   erro,
   workout,
   exercices,
 }: SingleWorkoutProps) {
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useAuth();
+  const [isSending, setIsSending] = useState(false);
+  const [allExercices, setAllExercices] = useState<ExerciceData[]>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<CreateWorkoutData>({
+    resolver: yupResolver(schema),
+  });
+
+  const createWorkout: SubmitHandler<CreateWorkoutData> = async values => {
+    setIsSending(true);
+
+    const { data } = await supabase.from('exercicio').insert([
+      {
+        id: uuidv4(),
+        usuario: user?.id,
+        nome: values.name,
+        serie: values.series,
+        repeticoes: values.reps,
+        peso: values.weight,
+        treino: router.query.id,
+      },
+    ]);
+
+    if (data) {
+      setAllExercices(prev => prev && [...prev, ...data]);
+    }
+
+    setIsSending(false);
+
+    onClose();
+
+    reset();
+  };
+
+  useEffect(() => {
+    setAllExercices(exercices);
+  }, [exercices]);
 
   return (
     <>
@@ -90,22 +167,86 @@ export default function SingleWorkout({
                 Editar
               </Button>
 
-              <IconButton
-                border="0"
+              <Button
                 background="none"
-                borderRadius="6"
-                w="12"
-                h="12"
+                color="blue.500"
+                mr={{ base: '2', lg: '4', xl: '10' }}
                 _hover={{
                   transition: 0.2,
-                  filter: 'brightness(0.9)',
+                  filter: 'brightness(1.2)',
                   background: 'gray.700',
                 }}
-                aria-label="Abrir menu"
-                icon={<RiMenuAddLine fontSize="2rem" />}
-              />
+                onClick={onOpen}
+              >
+                Criar exercício
+              </Button>
             </Flex>
           </Flex>
+
+          <Modal
+            isOpen={isOpen}
+            onClose={() => {
+              onClose();
+              reset();
+            }}
+          >
+            <ModalOverlay />
+            <ModalContent as="form" onSubmit={handleSubmit(createWorkout)}>
+              <ModalHeader color="yellow.500">Criar exercício</ModalHeader>
+
+              <ModalBody>
+                <Stack spacing="4">
+                  <Input
+                    {...register('name')}
+                    label="Nome"
+                    error={errors.name}
+                  />
+
+                  <Input
+                    {...register('series')}
+                    type="number"
+                    label="Série"
+                    error={errors.series}
+                  />
+
+                  <Input
+                    {...register('reps')}
+                    label="Repetições"
+                    error={errors.reps}
+                  />
+
+                  <Input
+                    {...register('weight')}
+                    type="number"
+                    label="Carga / Peso"
+                    error={errors.weight}
+                  />
+                </Stack>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button
+                  variant="ghost"
+                  mr={3}
+                  onClick={() => {
+                    onClose();
+                    reset();
+                  }}
+                >
+                  Cancelar
+                </Button>
+
+                <Button
+                  colorScheme="blue"
+                  variant="ghost"
+                  type="submit"
+                  isLoading={isSending}
+                >
+                  Criar
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
 
           <Grid
             templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
@@ -114,8 +255,8 @@ export default function SingleWorkout({
             mt="10"
           >
             {!erro &&
-              exercices &&
-              exercices.map(singleExercice => (
+              allExercices &&
+              allExercices.map(singleExercice => (
                 <Exercice
                   key={singleExercice.id}
                   nome={singleExercice.nome}

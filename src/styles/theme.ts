@@ -8,7 +8,13 @@ const breakpoints = createBreakpoints({
   xl: '90em',
 });
 
+const config = {
+  initialColorMode: 'dark',
+  useSystemColorMode: false,
+};
+
 export const theme = extendTheme({
+  config,
   colors: {
     gray: {
       '50': '#e1e1e6' /* title */,
