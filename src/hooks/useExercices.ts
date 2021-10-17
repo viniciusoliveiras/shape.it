@@ -3,12 +3,16 @@ import { useQuery } from 'react-query';
 import { supabase } from '../services/supabase';
 
 export async function getExercices(id: string | undefined) {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('exercicio')
     .select('*')
     .eq('treino', id);
 
   const exercices = data;
+
+  if (error) {
+    throw error;
+  }
 
   return { exercices };
 }

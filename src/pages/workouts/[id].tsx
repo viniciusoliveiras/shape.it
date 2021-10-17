@@ -165,7 +165,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                 }}
                 mr={{ base: '2', lg: '4', xl: '10' }}
               >
-                Editar
+                Editar treino
               </Button>
 
               <Button
@@ -249,33 +249,37 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
             </ModalContent>
           </Modal>
 
-          {!isLoading && !isFetching && (
-            <Grid
-              templateColumns={{
-                base: 'repeat(1, 1fr)',
-                md: 'repeat(2, 1fr)',
-              }}
-              gap={{ base: '4', lg: '6', xl: '10' }}
-              width="100%"
-              mt="10"
-            >
-              {data &&
-                data.exercices &&
-                data.exercices.map(singleExercice => (
-                  <Exercice
-                    key={singleExercice.id}
-                    id={singleExercice.id}
-                    nome={singleExercice.nome}
-                    peso={singleExercice.peso}
-                    repeticoes={singleExercice.repeticoes}
-                    serie={singleExercice.serie}
-                  />
-                ))}
-            </Grid>
-          )}
+          {!isLoading &&
+            !isFetching &&
+            data &&
+            data.exercices &&
+            data.exercices?.length > 0 && (
+              <Grid
+                templateColumns={{
+                  base: 'repeat(1, 1fr)',
+                  md: 'repeat(2, 1fr)',
+                }}
+                gap={{ base: '4', lg: '6', xl: '10' }}
+                width="100%"
+                mt="10"
+              >
+                {data &&
+                  data.exercices &&
+                  data.exercices.map(singleExercice => (
+                    <Exercice
+                      key={singleExercice.id}
+                      id={singleExercice.id}
+                      nome={singleExercice.nome}
+                      peso={singleExercice.peso}
+                      repeticoes={singleExercice.repeticoes}
+                      serie={singleExercice.serie}
+                    />
+                  ))}
+              </Grid>
+            )}
 
-          {error && error !== undefined && (
-            <Flex flexDirection="column" align="center" flex="1">
+          {error && !isLoading && !isFetching && (
+            <Flex flexDirection="column" align="center" flex="1" mt="20">
               <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
                 Tivemos um problema ao obter seus exercícios...
               </Text>
@@ -285,24 +289,18 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
             </Flex>
           )}
 
-          {error && error !== undefined && (
-            <Flex flexDirection="column" align="center" flex="1">
-              <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
-                Nenhum exercício criado.
-              </Text>
-              <Button
-                background="none"
-                _hover={{
-                  transition: 0.2,
-                  filter: 'brightness(1.2)',
-                  background: 'gray.700',
-                }}
-                mt="4"
-              >
-                Criar exercício
-              </Button>
-            </Flex>
-          )}
+          {!isLoading &&
+            !isFetching &&
+            !error &&
+            data &&
+            data.exercices &&
+            data.exercices?.length === 0 && (
+              <Flex flexDirection="column" align="center" flex="1" mt="20">
+                <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
+                  Nenhum exercício criado...
+                </Text>
+              </Flex>
+            )}
         </Flex>
       </Flex>
     </>
