@@ -10,6 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { useDeleteExerciceModal } from '../hooks/useDeleteExerciceModal';
 import { queryClient } from '../services/queryClient';
@@ -34,6 +35,8 @@ export function DeleteExerciceModal({
 
     if (data) {
       queryClient.invalidateQueries('exercices');
+
+      toast.success('Exercício excluído');
     }
 
     setIsDeleting(false);
@@ -72,7 +75,7 @@ export function DeleteExerciceModal({
             <Button
               colorScheme="blue"
               variant="ghost"
-              onClick={deleteExercice}
+              onClick={() => deleteExercice()}
               isLoading={isDeleting}
               disabled={isDeleting}
             >

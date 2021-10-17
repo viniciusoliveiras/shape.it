@@ -14,7 +14,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 import { Header } from '../../../components/Header';
@@ -48,7 +48,6 @@ export default function EditWorkout({ workout }: EditWorkoutProps) {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<EditWorkoutData>({
     resolver: yupResolver(schema),
   });
@@ -75,7 +74,8 @@ export default function EditWorkout({ workout }: EditWorkoutProps) {
 
     if (data) {
       router.push(`/workouts/${workout.id}`);
-      toast.success('Treino editado com sucesso');
+
+      toast.success('Treino editado');
     }
 
     setIsSending(false);
@@ -112,9 +112,10 @@ export default function EditWorkout({ workout }: EditWorkoutProps) {
             {...register('name')}
             label="Nome do treino"
             placeholder={workout.nome}
+            error={errors.name}
           />
 
-          <FormControl mt="4">
+          <FormControl mt="4" error={errors.description}>
             <FormLabel>Descrição</FormLabel>
 
             <Textarea

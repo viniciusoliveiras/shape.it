@@ -23,6 +23,7 @@ import nookies from 'nookies';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiArrowLeftSLine } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
@@ -88,6 +89,8 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
 
     if (data) {
       queryClient.invalidateQueries('exercices');
+
+      toast.success('Exercício criado');
     }
 
     setIsSending(false);
@@ -309,10 +312,8 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
-  const cookies = nookies.get(ctx);
-  let workout;
-
   if (ctx.params) {
+    const cookies = nookies.get(ctx);
     const { id } = ctx.params;
 
     const workoutResponse = await supabase
@@ -321,10 +322,13 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
       .eq('id', id)
       .eq('usuario', cookies['shape-it.user-id']);
 
-    workout = workoutResponse?.data;
+    const workout = workoutResponse?.data;
+    return {
+      props: { workout },
+    };
   }
 
   return {
-    props: { workout },
+    props: {},
   };
 };

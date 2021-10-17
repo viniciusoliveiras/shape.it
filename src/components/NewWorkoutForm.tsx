@@ -10,8 +10,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Router from 'next/router';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { RiErrorWarningFill } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
@@ -136,7 +136,7 @@ export function NewWorkoutForm() {
           bgColor="gray.200"
           color="gray.900"
           _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
-          onClick={handleCancel}
+          onClick={() => handleCancel()}
         >
           Cancelar
         </Button>
