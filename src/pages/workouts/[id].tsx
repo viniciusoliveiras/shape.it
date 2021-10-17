@@ -33,7 +33,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../services/supabase';
 
 type ExerciceData = {
-  id: number;
+  id: string;
   nome: string;
   serie: number;
   repeticoes: string;
@@ -259,6 +259,7 @@ export default function SingleWorkout({
               allExercices.map(singleExercice => (
                 <Exercice
                   key={singleExercice.id}
+                  id={singleExercice.id}
                   nome={singleExercice.nome}
                   peso={singleExercice.peso}
                   repeticoes={singleExercice.repeticoes}

@@ -14,15 +14,21 @@ import React from 'react';
 import { CgGym } from 'react-icons/cg';
 import { RiDeleteBinLine, RiEditLine, RiMoreLine } from 'react-icons/ri';
 
+import { useDeleteExerciceModal } from '../hooks/useDeleteExerciceModal';
+import { DeleteExerciceModal } from './DeleteExerciceModal';
+
 interface ExerciceProps {
+  id: string;
   nome: string;
   serie: number;
   repeticoes: string;
   peso: number;
 }
 
-export function Exercice({ nome, peso, repeticoes, serie }: ExerciceProps) {
+export function Exercice({ id, nome, peso, repeticoes, serie }: ExerciceProps) {
   const showGymIcon = useBreakpointValue({ base: true, md: false, lg: true });
+
+  const { onOpen } = useDeleteExerciceModal();
 
   return (
     <Flex
@@ -113,8 +119,9 @@ export function Exercice({ nome, peso, repeticoes, serie }: ExerciceProps) {
               >
                 <RiEditLine fontSize="1.3rem" /> <Text ml="2">Editar</Text>
               </MenuItem>
+
               <MenuItem
-                onClick={() => alert('This item will be delete')}
+                onClick={onOpen}
                 _hover={{
                   transition: 0.2,
                   filter: 'brightness(1.5)',
@@ -128,6 +135,8 @@ export function Exercice({ nome, peso, repeticoes, serie }: ExerciceProps) {
               </MenuItem>
             </MenuList>
           </Menu>
+
+          <DeleteExerciceModal id={id} exerciceName={nome} />
         </Flex>
       </Flex>
     </Flex>
