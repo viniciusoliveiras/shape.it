@@ -14,13 +14,20 @@ import {
   useDisclosure,
   Stack,
   Spinner,
+  HStack,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiArrowLeftSLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
@@ -62,6 +69,11 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
   const [isSending, setIsSending] = useState(false);
+  const [isDeleteWorkoutAlertOpen, setIsDeleteWorkoutAlertOpen] =
+    useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const onCloseDeleteWorkoutAlert = () => setIsDeleteWorkoutAlertOpen(false);
+  const cancelRef = useRef(null);
 
   const {
     register,
@@ -107,6 +119,29 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
   useEffect(() => {
     refetch();
   }, [refetch]);
+
+  async function deleteWorkout() {
+    setIsDeleting(true);
+
+    const deleteExerciceResponse = await supabase
+      .from('exercicio')
+      .delete()
+      .eq('treino', router.query.id?.toString());
+
+    if (deleteExerciceResponse.data) {
+      const deleteWorkoutResponse = await supabase
+        .from('treino')
+        .delete()
+        .eq('id', router.query.id?.toString());
+
+      if (deleteWorkoutResponse.data) {
+        router.push('/workouts');
+        toast.success('Treino excluído');
+      }
+    }
+
+    setIsDeleting(false);
+  }
 
   return (
     <>
@@ -157,7 +192,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
               </Text>
             </Flex>
 
-            <Flex align="center">
+            <HStack spacing="2" color="blue.500">
               <Button
                 background="none"
                 color="blue.500"
@@ -166,10 +201,22 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                   filter: 'brightness(1.2)',
                   background: 'gray.700',
                 }}
-                mr={{ base: '2', lg: '4', xl: '10' }}
                 onClick={() => router.push(`/workouts/edit/${router.query.id}`)}
               >
                 Editar treino
+              </Button>
+
+              <Button
+                background="none"
+                color="blue.500"
+                _hover={{
+                  transition: 0.2,
+                  filter: 'brightness(1.2)',
+                  background: 'gray.700',
+                }}
+                onClick={() => setIsDeleteWorkoutAlertOpen(true)}
+              >
+                Excluir treino
               </Button>
 
               <Button
@@ -185,8 +232,52 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
               >
                 Criar exercício
               </Button>
-            </Flex>
+            </HStack>
           </Flex>
+
+          <AlertDialog
+            isOpen={isDeleteWorkoutAlertOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onCloseDeleteWorkoutAlert}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                  Excluir treino
+                </AlertDialogHeader>
+
+                <AlertDialogBody>
+                  Deseja realmente excluir este treino? <br />
+                  Esta ação excluirá também todos os exercícios inclusos neste
+                  treino.
+                  <br />
+                  Esta ação é irreversível!
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button
+                    ref={cancelRef}
+                    onClick={onCloseDeleteWorkoutAlert}
+                    variant="ghost"
+                    disabled={isDeleting}
+                  >
+                    Cancelar
+                  </Button>
+
+                  <Button
+                    variant="ghost"
+                    colorScheme="blue"
+                    ml={3}
+                    isLoading={isDeleting}
+                    disabled={isDeleting}
+                    onClick={() => deleteWorkout()}
+                  >
+                    Excluir
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
 
           <Modal
             isOpen={isOpen}
