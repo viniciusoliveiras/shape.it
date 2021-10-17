@@ -164,6 +164,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                   background: 'gray.700',
                 }}
                 mr={{ base: '2', lg: '4', xl: '10' }}
+                onClick={() => router.push(`/workouts/edit/${router.query.id}`)}
               >
                 Editar treino
               </Button>
