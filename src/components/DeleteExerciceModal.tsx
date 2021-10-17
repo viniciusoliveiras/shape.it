@@ -12,6 +12,7 @@ import {
 import { useState } from 'react';
 
 import { useDeleteExerciceModal } from '../hooks/useDeleteExerciceModal';
+import { queryClient } from '../services/queryClient';
 import { supabase } from '../services/supabase';
 
 interface DeleteExerciceModalProps {
@@ -29,7 +30,11 @@ export function DeleteExerciceModal({
   async function deleteExercice() {
     setIsDeleting(true);
 
-    await supabase.from('exercicio').delete().eq('id', id);
+    const { data } = await supabase.from('exercicio').delete().eq('id', id);
+
+    if (data) {
+      queryClient.invalidateQueries('exercices');
+    }
 
     setIsDeleting(false);
 

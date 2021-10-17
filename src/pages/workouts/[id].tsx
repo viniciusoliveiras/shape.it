@@ -13,9 +13,9 @@ import {
   ModalBody,
   useDisclosure,
   Stack,
+  Spinner,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { PostgrestError } from '@supabase/supabase-js';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -30,23 +30,15 @@ import { Exercice } from '../../components/Exercice';
 import { Header } from '../../components/Header';
 import { Input } from '../../components/input';
 import { useAuth } from '../../hooks/useAuth';
+import { useExercices } from '../../hooks/useExercices';
+import { queryClient } from '../../services/queryClient';
 import { supabase } from '../../services/supabase';
-
-type ExerciceData = {
-  id: string;
-  nome: string;
-  serie: number;
-  repeticoes: string;
-  peso: number;
-};
 
 type Workout = {
   nome: string;
 };
 
 interface SingleWorkoutProps {
-  exercices: ExerciceData[];
-  erro: PostgrestError | null | undefined;
   workout: Workout[];
 }
 
@@ -64,16 +56,11 @@ const schema = yup.object({
   weight: yup.string(),
 });
 
-export default function SingleWorkout({
-  erro,
-  workout,
-  exercices,
-}: SingleWorkoutProps) {
+export default function SingleWorkout({ workout }: SingleWorkoutProps) {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
   const [isSending, setIsSending] = useState(false);
-  const [allExercices, setAllExercices] = useState<ExerciceData[]>();
 
   const {
     register,
@@ -100,7 +87,7 @@ export default function SingleWorkout({
     ]);
 
     if (data) {
-      setAllExercices(prev => prev && [...prev, ...data]);
+      queryClient.invalidateQueries('exercices');
     }
 
     setIsSending(false);
@@ -110,9 +97,13 @@ export default function SingleWorkout({
     reset();
   };
 
+  const { refetch, data, isLoading, isFetching, error } = useExercices(
+    router.query.id?.toString()
+  );
+
   useEffect(() => {
-    setAllExercices(exercices);
-  }, [exercices]);
+    refetch();
+  }, [refetch]);
 
   return (
     <>
@@ -149,7 +140,17 @@ export default function SingleWorkout({
                 fontSize={{ base: 'xl', lg: '3xl', xl: '4xl' }}
                 fontWeight="bold"
               >
-                {workout[0].nome}
+                {workout[0].nome}{' '}
+                {isLoading ||
+                  (isFetching && (
+                    <Spinner
+                      thickness="0.2rem"
+                      speed="1s"
+                      color="yellow.500"
+                      size="md"
+                      ml="4"
+                    />
+                  ))}
               </Text>
             </Flex>
 
@@ -248,27 +249,32 @@ export default function SingleWorkout({
             </ModalContent>
           </Modal>
 
-          <Grid
-            templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
-            gap={{ base: '4', lg: '6', xl: '10' }}
-            width="100%"
-            mt="10"
-          >
-            {!erro &&
-              allExercices &&
-              allExercices.map(singleExercice => (
-                <Exercice
-                  key={singleExercice.id}
-                  id={singleExercice.id}
-                  nome={singleExercice.nome}
-                  peso={singleExercice.peso}
-                  repeticoes={singleExercice.repeticoes}
-                  serie={singleExercice.serie}
-                />
-              ))}
-          </Grid>
+          {!isLoading && !isFetching && (
+            <Grid
+              templateColumns={{
+                base: 'repeat(1, 1fr)',
+                md: 'repeat(2, 1fr)',
+              }}
+              gap={{ base: '4', lg: '6', xl: '10' }}
+              width="100%"
+              mt="10"
+            >
+              {data &&
+                data.exercices &&
+                data.exercices.map(singleExercice => (
+                  <Exercice
+                    key={singleExercice.id}
+                    id={singleExercice.id}
+                    nome={singleExercice.nome}
+                    peso={singleExercice.peso}
+                    repeticoes={singleExercice.repeticoes}
+                    serie={singleExercice.serie}
+                  />
+                ))}
+            </Grid>
+          )}
 
-          {erro && erro !== undefined && erro.code !== '22P02' && (
+          {error && error !== undefined && (
             <Flex flexDirection="column" align="center" flex="1">
               <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
                 Tivemos um problema ao obter seus exercícios...
@@ -279,7 +285,7 @@ export default function SingleWorkout({
             </Flex>
           )}
 
-          {erro && erro !== undefined && erro.code === '22P02' && (
+          {error && error !== undefined && (
             <Flex flexDirection="column" align="center" flex="1">
               <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
                 Nenhum exercício criado.
@@ -305,17 +311,10 @@ export default function SingleWorkout({
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const cookies = nookies.get(ctx);
-  let exercices;
   let workout;
-  let erro;
 
   if (ctx.params) {
     const { id } = ctx.params;
-
-    const { data, error } = await supabase
-      .from('exercicio')
-      .select('*')
-      .eq('treino', id);
 
     const workoutResponse = await supabase
       .from('treino')
@@ -323,12 +322,10 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
       .eq('id', id)
       .eq('usuario', cookies['shape-it.user-id']);
 
-    exercices = data;
-    erro = error;
     workout = workoutResponse?.data;
   }
 
   return {
-    props: { exercices, workout, erro },
+    props: { workout },
   };
 };
