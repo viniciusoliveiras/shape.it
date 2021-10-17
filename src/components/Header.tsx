@@ -1,20 +1,17 @@
 /* eslint-disable no-use-before-define */
 import {
-  Box,
   Flex,
   Grid,
   Image,
-  Text,
   IconButton,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import Router from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
-import { RiMenuLine, RiLogoutBoxRLine, RiUser3Fill } from 'react-icons/ri';
+import { RiLogoutBoxRLine, RiUser3Fill } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 
 import { useAuth } from '../hooks/useAuth';
-import { useSidebarDrawer } from '../hooks/useSidebarDrawer';
 import { supabase } from '../services/supabase';
 import { Navigation } from './Navigation';
 
@@ -26,7 +23,6 @@ type LoggedUserType = {
 
 export function Header() {
   const { user, setLoading } = useAuth();
-  const { onOpen } = useSidebarDrawer();
   const isMobile = useBreakpointValue({
     base: true,
     lg: false,
@@ -107,7 +103,7 @@ export function Header() {
             filter: 'brightness(0.9)',
             background: 'gray.700',
           }}
-          onClick={handleLogout}
+          onClick={() => handleLogout()}
           aria-label="Sair"
           fontSize={{ base: '3xl', lg: '4xl', xl: '5xl' }}
           icon={<RiLogoutBoxRLine />}

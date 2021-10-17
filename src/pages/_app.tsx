@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import { QueryClientProvider } from 'react-query';
+import { ToastContainer } from 'react-toastify';
 
 import { AuthContextProvider } from '../contexts/AuthContext';
 import { DeleteExerciceModalContextProvider } from '../contexts/DeleteExerciceModal';
@@ -11,6 +12,7 @@ import { SidebarDrawerProvider } from '../contexts/SidebarDrawerContent';
 import { queryClient } from '../services/queryClient';
 import { theme } from '../styles/theme';
 import '../styles/global.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -52,6 +54,20 @@ function MyApp({ Component, pageProps }: AppProps) {
                     },
                   },
                 }}
+              />
+
+              <ToastContainer
+                position="top-right"
+                autoClose={4000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                closeButton={false}
               />
             </DeleteExerciceModalContextProvider>
           </SidebarDrawerProvider>
