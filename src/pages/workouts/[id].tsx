@@ -134,7 +134,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                   filter: 'brightness(0.9)',
                   background: 'gray.700',
                 }}
-                onClick={() => router.back()}
+                onClick={() => router.push('/workouts')}
                 aria-label="Abrir menu"
                 icon={<RiArrowLeftSLine fontSize="3rem" />}
                 mr={{ base: '0', lg: '6', xl: '12' }}
