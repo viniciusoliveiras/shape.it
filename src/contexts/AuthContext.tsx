@@ -60,7 +60,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         provider: 'google',
       },
       {
-        redirectTo: 'https://shape-it-preview.vercel.app/workouts',
+        redirectTo: process.env.NEXT_PUBLIC_SUPABASE_URL_REDIRECT,
       }
     );
 
