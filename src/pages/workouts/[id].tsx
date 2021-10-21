@@ -21,6 +21,10 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { GetServerSideProps } from 'next';
@@ -29,7 +33,7 @@ import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import React, { useEffect, useState, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { RiArrowLeftSLine } from 'react-icons/ri';
+import { RiArrowLeftSLine, RiMore2Fill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
@@ -157,7 +161,13 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
       >
         <Flex flexDirection="column" w="100%">
           <Flex alignSelf="flex-start" justify="space-between" w="100%">
-            <Flex align="center">
+            <HStack
+              spacing={{ base: '0', lg: '4' }}
+              display="flex"
+              alignItems="center"
+              justifyContent={{ base: 'space-between', lg: 'flex-start' }}
+              w="100%"
+            >
               <IconButton
                 border="0"
                 background="none"
@@ -172,8 +182,8 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                 onClick={() => router.push('/workouts')}
                 aria-label="Abrir menu"
                 icon={<RiArrowLeftSLine fontSize="3rem" />}
-                mr={{ base: '0', lg: '6', xl: '12' }}
               />
+
               <Text
                 fontSize={{ base: 'xl', lg: '3xl', xl: '4xl' }}
                 fontWeight="bold"
@@ -190,9 +200,40 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                     />
                   ))}
               </Text>
-            </Flex>
 
-            <HStack spacing="2" color="blue.500">
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  icon={<RiMore2Fill fontSize="1.5rem" />}
+                  display={{ base: 'flex', lg: 'none' }}
+                  variant="ghost"
+                  alignItems="center"
+                  justifyContent="center"
+                  colorScheme="blue"
+                />
+                <MenuList>
+                  <MenuItem
+                    onClick={() =>
+                      router.push(`/workouts/edit/${router.query.id}`)
+                    }
+                  >
+                    Editar treino
+                  </MenuItem>
+
+                  <MenuItem onClick={() => setIsDeleteWorkoutAlertOpen(true)}>
+                    Excluir treino
+                  </MenuItem>
+
+                  <MenuItem onClick={onOpen}>Criar exercício</MenuItem>
+                </MenuList>
+              </Menu>
+            </HStack>
+
+            <HStack
+              spacing="2"
+              color="blue.500"
+              display={{ base: 'none', lg: 'flex' }}
+            >
               <Button
                 background="none"
                 color="blue.500"
