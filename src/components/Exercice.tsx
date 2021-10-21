@@ -78,13 +78,16 @@ export function Exercice({ id, nome, peso, repeticoes, serie }: ExerciceProps) {
           >
             {serie} x {repeticoes}
           </Text>
-          <Text
-            fontSize={{ base: 'xs', lg: 'sm', xl: 'md' }}
-            fontWeight="light"
-            color="gray.50"
-          >
-            {peso} kg
-          </Text>
+
+          {peso != null && (
+            <Text
+              fontSize={{ base: 'xs', lg: 'sm', xl: 'md' }}
+              fontWeight="light"
+              color="gray.50"
+            >
+              {peso} kg
+            </Text>
+          )}
         </Flex>
         <Flex>
           <Menu>

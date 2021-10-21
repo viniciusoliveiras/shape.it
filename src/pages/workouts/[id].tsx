@@ -58,7 +58,7 @@ interface CreateWorkoutData {
   name: string;
   series: number;
   reps: string;
-  weight: number;
+  weight: string;
 }
 
 const schema = yup.object({
@@ -98,7 +98,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
         nome: values.name,
         serie: values.series,
         repeticoes: values.reps,
-        peso: values.weight,
+        peso: parseInt(values.weight, 10),
         treino: router.query.id,
       },
     ]);
