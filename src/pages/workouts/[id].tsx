@@ -33,7 +33,7 @@ import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import React, { useEffect, useState, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { RiArrowLeftSLine, RiMore2Fill } from 'react-icons/ri';
+import { RiMore2Fill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
@@ -168,22 +168,6 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
               justifyContent={{ base: 'space-between', lg: 'flex-start' }}
               w="100%"
             >
-              <IconButton
-                border="0"
-                background="none"
-                borderRadius="6"
-                w="12"
-                h="12"
-                _hover={{
-                  transition: 0.2,
-                  filter: 'brightness(0.9)',
-                  background: 'gray.700',
-                }}
-                onClick={() => router.push('/workouts')}
-                aria-label="Abrir menu"
-                icon={<RiArrowLeftSLine fontSize="3rem" />}
-              />
-
               <Text
                 fontSize={{ base: 'xl', lg: '3xl', xl: '4xl' }}
                 fontWeight="bold"
