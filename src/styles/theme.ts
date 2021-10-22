@@ -21,19 +21,10 @@ export const theme = extendTheme({
       '100': '#cbd5e0' /* text */,
       '200': '#51595B',
       '700': '#292b2b' /* shape */,
-      '900': '#121414' /* background */,
+      '900': '#000' /* background */,
     },
     yellow: {
       '500': '#eba417',
-    },
-    blue: {
-      '500': '#61dcfb',
-    },
-    green: {
-      '500': '#04d361',
-    },
-    red: {
-      '500': '#FB6161',
     },
   },
   fonts: {

@@ -33,7 +33,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         id={name}
         type={type}
         bgColor="gray.900"
-        focusBorderColor="yellow.500"
+        focusBorderColor="green.500"
         size="lg"
         ref={ref}
         {...rest}

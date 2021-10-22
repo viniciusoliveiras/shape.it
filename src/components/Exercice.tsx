@@ -67,7 +67,7 @@ export function Exercice({ id, nome, peso, repeticoes, serie }: ExerciceProps) {
           <Text
             fontWeight="medium"
             fontSize={{ base: 'sm', lg: 'md', xl: 'lg' }}
-            color="white"
+            color="green.300"
           >
             {nome}
           </Text>
@@ -93,48 +93,26 @@ export function Exercice({ id, nome, peso, repeticoes, serie }: ExerciceProps) {
           <Menu>
             <MenuButton
               as={Button}
-              border="0"
-              backgroundColor="gray.700"
               borderRadius="6"
               justify="center"
               align="center"
-              _hover={{
-                transition: 0.2,
-                filter: 'brightness(1.5)',
-                background: 'gray.700',
-              }}
-              _expanded={{ bg: 'gray.900' }}
+              variant="ghost"
+              colorScheme="green"
               fontSize={{ base: 'xl', lg: '2xl', xl: '3xl' }}
             >
               <RiMoreLine />
             </MenuButton>
 
-            <MenuList backgroundColor="gray.900">
-              <MenuItem
-                _hover={{
-                  transition: 0.2,
-                  filter: 'brightness(1.5)',
-                  background: 'blue.500',
-                  color: 'gray.900',
-                  fontWeight: '800',
-                }}
-                _focus={{ bg: 'gray.900' }}
-              >
-                <RiEditLine fontSize="1.3rem" /> <Text ml="2">Editar</Text>
+            <MenuList>
+              <MenuItem icon={<RiEditLine fontSize="1.3rem" />}>
+                <Text>Editar</Text>
               </MenuItem>
 
               <MenuItem
+                icon={<RiDeleteBinLine fontSize="1.3rem" />}
                 onClick={onOpen}
-                _hover={{
-                  transition: 0.2,
-                  filter: 'brightness(1.5)',
-                  background: 'blue.500',
-                  color: 'gray.900',
-                  fontWeight: '800',
-                }}
               >
-                <RiDeleteBinLine fontSize="1.3rem" />{' '}
-                <Text ml="2">Excluir</Text>
+                <Text>Excluir</Text>
               </MenuItem>
             </MenuList>
           </Menu>

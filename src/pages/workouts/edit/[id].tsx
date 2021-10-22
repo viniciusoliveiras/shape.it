@@ -121,7 +121,7 @@ export default function EditWorkout({ workout }: EditWorkoutProps) {
             <Textarea
               {...register('description')}
               bgColor="gray.900"
-              focusBorderColor="yellow.500"
+              focusBorderColor="green.500"
               minH="3xs"
               maxH="2xs"
               p="4"
@@ -135,8 +135,7 @@ export default function EditWorkout({ workout }: EditWorkoutProps) {
           <Flex alignSelf={{ base: 'center', md: 'flex-end' }} mt="10">
             <Button
               mr="5"
-              bgColor="gray.200"
-              color="gray.900"
+              colorScheme="gray"
               _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
               onClick={() => router.push(`/workouts/${router.query.id}`)}
               disabled={isSending}
@@ -144,8 +143,7 @@ export default function EditWorkout({ workout }: EditWorkoutProps) {
               Cancelar
             </Button>
             <Button
-              bgColor="yellow.500"
-              color="gray.900"
+              colorScheme="green"
               _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
               type="submit"
               isLoading={isSending}

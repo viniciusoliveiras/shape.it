@@ -57,7 +57,7 @@ export default function Custom404() {
             transition: 0.2,
             filter: 'brightness(0.9)',
             textDecoration: 'none',
-            color: 'blue.500',
+            color: 'green.300',
           }}
           onClick={() => Router.push('/workouts')}
         >

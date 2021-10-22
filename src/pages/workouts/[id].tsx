@@ -178,7 +178,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                     <Spinner
                       thickness="0.2rem"
                       speed="1s"
-                      color="yellow.500"
+                      color="green.500"
                       size="md"
                       ml="4"
                     />
@@ -193,7 +193,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                   variant="ghost"
                   alignItems="center"
                   justifyContent="center"
-                  colorScheme="blue"
+                  colorScheme="green"
                 />
                 <MenuList>
                   <MenuItem
@@ -215,12 +215,12 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
 
             <HStack
               spacing="2"
-              color="blue.500"
+              color="green.300"
               display={{ base: 'none', lg: 'flex' }}
             >
               <Button
                 background="none"
-                color="blue.500"
+                color="green.300"
                 _hover={{
                   transition: 0.2,
                   filter: 'brightness(1.2)',
@@ -233,7 +233,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
 
               <Button
                 background="none"
-                color="blue.500"
+                color="green.300"
                 _hover={{
                   transition: 0.2,
                   filter: 'brightness(1.2)',
@@ -246,7 +246,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
 
               <Button
                 background="none"
-                color="blue.500"
+                color="green.300"
                 mr={{ base: '2', lg: '4', xl: '10' }}
                 _hover={{
                   transition: 0.2,
@@ -291,7 +291,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
 
                   <Button
                     variant="ghost"
-                    colorScheme="blue"
+                    colorScheme="green"
                     ml={3}
                     isLoading={isDeleting}
                     disabled={isDeleting}
@@ -313,7 +313,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
           >
             <ModalOverlay />
             <ModalContent as="form" onSubmit={handleSubmit(createWorkout)}>
-              <ModalHeader color="yellow.500">Criar exercício</ModalHeader>
+              <ModalHeader color="green.500">Criar exercício</ModalHeader>
 
               <ModalBody>
                 <Stack spacing="4">
@@ -358,7 +358,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                 </Button>
 
                 <Button
-                  colorScheme="blue"
+                  colorScheme="green"
                   variant="ghost"
                   type="submit"
                   isLoading={isSending}

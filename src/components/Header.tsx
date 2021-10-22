@@ -72,7 +72,7 @@ export function Header() {
       left="0"
       width="100%"
       zIndex="1"
-      boxShadow="rgb(18 18 20) 0px 1rem 2rem"
+      boxShadow="rgb(18 18 20) 0px 0.5rem 2rem"
     >
       {showFullLogo ? (
         <Image
@@ -85,7 +85,7 @@ export function Header() {
       )}
 
       {loggedUser && (
-        <HStack spacing={['4', '6']} color="blue.500">
+        <HStack spacing={['4', '6']} color="green.300">
           <Flex align="center" borderRightWidth={1} borderColor="gray.700">
             <Flex
               flexDir="column"
@@ -111,7 +111,7 @@ export function Header() {
                 aria-label="Menu"
                 icon={<RiMenuLine />}
                 variant="ghost"
-                colorScheme="blue"
+                colorScheme="green"
               />
             </Tooltip>
 
@@ -134,7 +134,7 @@ export function Header() {
               icon={<RiLogoutBoxRLine />}
               aria-label="Logout"
               variant="ghost"
-              colorScheme="blue"
+              colorScheme="green"
               onClick={() => handleLogout()}
             />
           </Tooltip>

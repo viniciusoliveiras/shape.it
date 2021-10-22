@@ -23,7 +23,7 @@ export function Workout({ title, description, handleClick }: WorkoutProps) {
         <Text
           fontWeight="medium"
           fontSize={{ base: 'xl', lg: '2xl', xl: '3xl' }}
-          color="blue.500"
+          color="green.300"
         >
           {title}
         </Text>

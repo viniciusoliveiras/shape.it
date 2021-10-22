@@ -5,7 +5,6 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   Button,
   Text,
 } from '@chakra-ui/react';
@@ -50,11 +49,11 @@ export function DeleteExerciceModal({
         <ModalOverlay />
         <ModalContent bgColor="gray.700">
           <ModalHeader>Excluir exercício</ModalHeader>
-          <ModalCloseButton />
+
           <ModalBody>
             <Text>
               Deseja realmente excluir o exercício{' '}
-              <Text fontWeight="semibold" color="yellow.500" as="span">
+              <Text fontWeight="semibold" color="green.500" as="span">
                 {exerciceName}
               </Text>
               ?
@@ -64,6 +63,7 @@ export function DeleteExerciceModal({
 
           <ModalFooter>
             <Button
+              colorScheme="gray"
               variant="ghost"
               mr={3}
               onClick={onClose}
@@ -73,7 +73,7 @@ export function DeleteExerciceModal({
             </Button>
 
             <Button
-              colorScheme="blue"
+              colorScheme="green"
               variant="ghost"
               onClick={() => deleteExercice()}
               isLoading={isDeleting}
