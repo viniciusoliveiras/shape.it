@@ -35,18 +35,22 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       setUser(supabase.auth.user() ?? undefined);
       setSession(supabase.auth.session() ?? undefined);
 
-      setCookie(
-        undefined,
-        'shape-it.access-token',
-        newSession?.access_token || '',
-        {
-          path: '/',
-        }
-      );
+      if (event === 'SIGNED_IN') {
+        setCookie(
+          undefined,
+          'shape-it.access-token',
+          newSession?.access_token || '',
+          {
+            path: '/',
+            maxAge: 604800, // 1 week
+          }
+        );
 
-      setCookie(undefined, 'shape-it.user-id', newSession?.user?.id || '', {
-        path: '/',
-      });
+        setCookie(undefined, 'shape-it.user-id', newSession?.user?.id || '', {
+          path: '/',
+          maxAge: 604800, // 1 week
+        });
+      }
     });
 
     return () => {

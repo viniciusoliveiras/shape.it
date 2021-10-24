@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import Router, { useRouter } from 'next/router';
+import { destroyCookie } from 'nookies';
 import React, { useEffect, useState } from 'react';
 import { RiLogoutBoxRLine, RiMenuLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
@@ -54,6 +55,8 @@ export function Header() {
       await supabase.auth.signOut();
       Router.push('/');
       toast.success('Logout realizado');
+      destroyCookie(null, 'shape-it.user-id', { path: '/' });
+      destroyCookie(null, 'shape-it.access-token', { path: '/' });
     } catch (error) {
       toast.error('Erro ao realizar o logout. Tente mais tarde');
       throw error;
