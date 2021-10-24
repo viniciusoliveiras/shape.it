@@ -13,7 +13,7 @@ import {
   MenuItem,
   Tooltip,
 } from '@chakra-ui/react';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { destroyCookie } from 'nookies';
 import React, { useEffect, useState } from 'react';
 import { RiLogoutBoxRLine, RiMenuLine } from 'react-icons/ri';
@@ -53,7 +53,7 @@ export function Header() {
   async function handleLogout() {
     try {
       await supabase.auth.signOut();
-      Router.push('/');
+      router.push('/');
       toast.success('Logout realizado');
       destroyCookie(null, 'shape-it.user-id', { path: '/' });
       destroyCookie(null, 'shape-it.access-token', { path: '/' });
@@ -82,9 +82,17 @@ export function Header() {
           src="/images/logo.svg"
           w={{ base: '32', md: '40', lg: '48', xl: '60' }}
           alt="shape.it"
+          cursor="pointer"
+          onClick={() => router.push('/workouts')}
         />
       ) : (
-        <Image src="/images/mobile-logo.svg" w="20" alt="shape.it" />
+        <Image
+          src="/images/mobile-logo.svg"
+          w="20"
+          alt="shape.it"
+          cursor="pointer"
+          onClick={() => router.push('/workouts')}
+        />
       )}
 
       {loggedUser && (
@@ -127,7 +135,7 @@ export function Header() {
                 color="white"
                 onClick={() => router.push('/new-workout')}
               >
-                Criar novo treino
+                Novo treino
               </MenuItem>
             </MenuList>
           </Menu>
