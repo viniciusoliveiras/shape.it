@@ -33,7 +33,7 @@ import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import React, { useEffect, useState, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { RiMore2Fill } from 'react-icons/ri';
+import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
@@ -76,6 +76,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
   const [isDeleteWorkoutAlertOpen, setIsDeleteWorkoutAlertOpen] =
     useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const onCloseDeleteWorkoutAlert = () => setIsDeleteWorkoutAlertOpen(false);
   const cancelRef = useRef(null);
 
@@ -171,7 +172,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
               w="100%"
             >
               <Text
-                fontSize={{ base: 'xl', lg: '3xl', xl: '4xl' }}
+                fontSize={{ base: '2xl', lg: '3xl', xl: '4xl' }}
                 fontWeight="bold"
               >
                 {workout[0].nome}{' '}
@@ -188,15 +189,30 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
               </Text>
 
               <Menu>
-                <MenuButton
-                  as={IconButton}
-                  icon={<RiMore2Fill fontSize="1.5rem" />}
-                  display={{ base: 'flex', lg: 'none' }}
-                  variant="ghost"
-                  alignItems="center"
-                  justifyContent="center"
-                  colorScheme="green"
-                />
+                {isMenuOpen ? (
+                  <MenuButton
+                    as={IconButton}
+                    icon={<MdExpandLess fontSize="1.5rem" />}
+                    display={{ base: 'flex', lg: 'none' }}
+                    variant="ghost"
+                    alignItems="center"
+                    justifyContent="center"
+                    colorScheme="green"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  />
+                ) : (
+                  <MenuButton
+                    as={IconButton}
+                    icon={<MdExpandMore fontSize="1.5rem" />}
+                    display={{ base: 'flex', lg: 'none' }}
+                    variant="ghost"
+                    alignItems="center"
+                    justifyContent="center"
+                    colorScheme="green"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  />
+                )}
+
                 <MenuList>
                   <MenuItem onClick={onOpen}>Criar exercício</MenuItem>
 

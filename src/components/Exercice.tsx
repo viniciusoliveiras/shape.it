@@ -11,8 +11,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import React from 'react';
-import { CgGym } from 'react-icons/cg';
-import { RiDeleteBinLine, RiEditLine, RiMoreLine } from 'react-icons/ri';
+import { MdFitnessCenter, MdDelete, MdEdit, MdMoreHoriz } from 'react-icons/md';
 
 import { useDeleteExerciceModal } from '../hooks/useDeleteExerciceModal';
 import { DeleteExerciceModal } from './DeleteExerciceModal';
@@ -54,7 +53,7 @@ export function Exercice({ id, nome, peso, repeticoes, serie }: ExerciceProps) {
           }}
           aria-label="Halter"
           fontSize={{ base: '2xl', lg: '3xl' }}
-          icon={<CgGym />}
+          icon={<MdFitnessCenter />}
           _focus={{
             outline: 'none',
           }}
@@ -100,16 +99,16 @@ export function Exercice({ id, nome, peso, repeticoes, serie }: ExerciceProps) {
               colorScheme="green"
               fontSize={{ base: 'xl', lg: '2xl', xl: '3xl' }}
             >
-              <RiMoreLine />
+              <MdMoreHoriz />
             </MenuButton>
 
             <MenuList>
-              <MenuItem icon={<RiEditLine fontSize="1.3rem" />}>
+              <MenuItem icon={<MdEdit fontSize="1.3rem" color="#68D391" />}>
                 <Text>Editar</Text>
               </MenuItem>
 
               <MenuItem
-                icon={<RiDeleteBinLine fontSize="1.3rem" />}
+                icon={<MdDelete fontSize="1.3rem" color="#68D391" />}
                 onClick={onOpen}
               >
                 <Text>Excluir</Text>
