@@ -198,6 +198,8 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                   colorScheme="green"
                 />
                 <MenuList>
+                  <MenuItem onClick={onOpen}>Criar exercício</MenuItem>
+
                   <MenuItem
                     onClick={() =>
                       router.push(`/workouts/edit/${router.query.id}`)
@@ -209,8 +211,6 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                   <MenuItem onClick={() => setIsDeleteWorkoutAlertOpen(true)}>
                     Excluir treino
                   </MenuItem>
-
-                  <MenuItem onClick={onOpen}>Criar exercício</MenuItem>
                 </MenuList>
               </Menu>
             </HStack>
@@ -220,6 +220,20 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
               color="green.300"
               display={{ base: 'none', lg: 'flex' }}
             >
+              <Button
+                background="none"
+                color="green.300"
+                mr={{ base: '2', lg: '4', xl: '10' }}
+                _hover={{
+                  transition: 0.2,
+                  filter: 'brightness(1.2)',
+                  background: 'gray.700',
+                }}
+                onClick={onOpen}
+              >
+                Criar exercício
+              </Button>
+
               <Button
                 background="none"
                 color="green.300"
@@ -244,20 +258,6 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                 onClick={() => setIsDeleteWorkoutAlertOpen(true)}
               >
                 Excluir treino
-              </Button>
-
-              <Button
-                background="none"
-                color="green.300"
-                mr={{ base: '2', lg: '4', xl: '10' }}
-                _hover={{
-                  transition: 0.2,
-                  filter: 'brightness(1.2)',
-                  background: 'gray.700',
-                }}
-                onClick={onOpen}
-              >
-                Criar exercício
               </Button>
             </HStack>
           </Flex>
@@ -403,7 +403,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
           {error && !isLoading && !isFetching && (
             <Flex flexDirection="column" align="center" flex="1" mt="20">
               <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
-                Tivemos um problema ao obter seus exercícios...
+                Tivemos um problema ao obter seus exercícios
               </Text>
               <Text fontWeight="medium" fontSize="md" lineHeight="base" mt="1">
                 Recarregue a página ou tente novamente mais tarde.
@@ -419,8 +419,22 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
             data.exercices?.length === 0 && (
               <Flex flexDirection="column" align="center" flex="1" mt="20">
                 <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
-                  Nenhum exercício criado...
+                  Nenhum exercício criado
                 </Text>
+
+                <Button
+                  background="none"
+                  color="green.300"
+                  _hover={{
+                    transition: 0.2,
+                    filter: 'brightness(1.2)',
+                    background: 'gray.700',
+                  }}
+                  onClick={onOpen}
+                  display={{ base: 'flex', lg: 'none' }}
+                >
+                  Criar novo
+                </Button>
               </Flex>
             )}
         </Flex>
