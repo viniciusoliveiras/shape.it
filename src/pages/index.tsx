@@ -23,6 +23,8 @@ export default function Home() {
     <>
       <Head>
         <title>shape.it</title>
+
+        <link rel="manifest" href="/manifest.json" />
       </Head>
 
       <Flex

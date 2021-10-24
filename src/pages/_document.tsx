@@ -13,6 +13,12 @@ export default class MyDocument extends Document {
           />
 
           <link rel="shortcut icon" href="/images/favicon.svg" />
+
+          <link rel="apple-touch-icon" href="/icons/maskable_icon_x192.png" />
+
+          <link rel="manifest" href="/manifest.json" />
+
+          <meta name="theme-color" content="#68D391" />
         </Head>
         <body>
           <Main />
