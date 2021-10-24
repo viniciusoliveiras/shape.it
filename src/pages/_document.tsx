@@ -12,6 +12,11 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
 
+          <meta
+            name="google-site-verification"
+            content="Ile1LY8imbARFY2R-w8o9le-mjKBCOF_etUAQ-GUi6g"
+          />
+
           <link rel="shortcut icon" href="/images/favicon.svg" />
 
           <link rel="apple-touch-icon" href="/icons/maskable_icon_x192.png" />
