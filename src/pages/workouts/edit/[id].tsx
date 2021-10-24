@@ -85,6 +85,8 @@ export default function EditWorkout({ workout }: EditWorkoutProps) {
     <>
       <Head>
         <title>shape.it</title>
+
+        <link rel="manifest" href="/manifest.json" />
       </Head>
 
       <Header />

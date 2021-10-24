@@ -151,6 +151,8 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
     <>
       <Head>
         <title>shape.it</title>
+
+        <link rel="manifest" href="/manifest.json" />
       </Head>
 
       <Header />
