@@ -7,11 +7,11 @@ import Router from 'next/router';
 import React, { useEffect, useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
-import { Header } from '../../components/Header';
-import { Workout } from '../../components/Workout';
-import { WorkoutGrid } from '../../components/WorkoutGrid';
-import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../services/supabase';
+import { Header } from 'components/Header';
+import { Workout } from 'components/Workout';
+import { WorkoutGrid } from 'components/WorkoutGrid';
+import { useAuth } from 'hooks/useAuth';
+import { supabase } from 'services/supabase';
 
 type WorkoutData = {
   descricao: string;

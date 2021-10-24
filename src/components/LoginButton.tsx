@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from 'hooks/useAuth';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;

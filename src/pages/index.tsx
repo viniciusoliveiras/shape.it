@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { parseCookies } from 'nookies';
 import React from 'react';
 
-import { LoginButton } from '../components/LoginButton';
+import { LoginButton } from 'components/LoginButton';
 
 export default function Home() {
   const isMobile = useBreakpointValue({

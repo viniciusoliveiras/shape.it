@@ -5,7 +5,7 @@ import Router from 'next/router';
 import React from 'react';
 import { RiHomeLine } from 'react-icons/ri';
 
-import { Header } from '../components/Header';
+import { Header } from 'components/Header';
 
 export default function Custom404() {
   return (

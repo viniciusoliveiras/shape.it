@@ -18,10 +18,10 @@ import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
-import { Header } from '../components/Header';
-import { Input } from '../components/input';
-import { useAuth } from '../hooks/useAuth';
-import { supabase } from '../services/supabase';
+import { Header } from 'components/Header';
+import { Input } from 'components/input';
+import { useAuth } from 'hooks/useAuth';
+import { supabase } from 'services/supabase';
 
 interface WorkoutFormData {
   name: string;

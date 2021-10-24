@@ -5,12 +5,12 @@ import React from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 
-import { AuthContextProvider } from '../contexts/AuthContext';
-import { DeleteExerciceModalContextProvider } from '../contexts/DeleteExerciceModal';
-import { SidebarDrawerProvider } from '../contexts/SidebarDrawerContent';
-import { queryClient } from '../services/queryClient';
-import { theme } from '../styles/theme';
-import '../styles/global.scss';
+import { AuthContextProvider } from 'contexts/AuthContext';
+import { DeleteExerciceModalContextProvider } from 'contexts/DeleteExerciceModal';
+import { SidebarDrawerProvider } from 'contexts/SidebarDrawerContent';
+import { queryClient } from 'services/queryClient';
+import { theme } from 'styles/theme';
+import 'styles/global.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }: AppProps) {

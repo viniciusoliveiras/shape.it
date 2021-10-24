@@ -38,13 +38,13 @@ import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
-import { Exercice } from '../../components/Exercice';
-import { Header } from '../../components/Header';
-import { Input } from '../../components/input';
-import { useAuth } from '../../hooks/useAuth';
-import { useExercices } from '../../hooks/useExercices';
-import { queryClient } from '../../services/queryClient';
-import { supabase } from '../../services/supabase';
+import { Exercice } from 'components/Exercice';
+import { Header } from 'components/Header';
+import { Input } from 'components/input';
+import { useAuth } from 'hooks/useAuth';
+import { useExercices } from 'hooks/useExercices';
+import { queryClient } from 'services/queryClient';
+import { supabase } from 'services/supabase';
 
 type Workout = {
   nome: string;

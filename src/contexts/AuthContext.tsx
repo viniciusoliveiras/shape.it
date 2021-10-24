@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react';
 
-import { supabase } from '../services/supabase';
+import { supabase } from 'services/supabase';
 
 type AuthContextType = {
   user?: User;

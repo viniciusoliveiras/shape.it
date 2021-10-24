@@ -17,9 +17,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import { Header } from '../../../components/Header';
-import { Input } from '../../../components/input';
-import { supabase } from '../../../services/supabase';
+import { Header } from 'components/Header';
+import { Input } from 'components/input';
+import { supabase } from 'services/supabase';
 
 interface EditWorkoutProps {
   workout: {

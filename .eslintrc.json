@@ -72,6 +72,14 @@
         "groups": [
           "module",
           "/^@shared/",
+          [
+            "/^components/",
+            "/^contexts/",
+            "/^hooks/",
+            "/^services/",
+            "/^styles/",
+            "/^utils/"
+          ],
           ["parent", "sibling", "index"]
         ],
         "alphabetize": { "order": "asc", "ignoreCase": true }

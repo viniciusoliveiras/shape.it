@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { supabase } from '../services/supabase';
+import { supabase } from 'services/supabase';
 
 export async function getExercices(id: string | undefined) {
   const { data, error } = await supabase

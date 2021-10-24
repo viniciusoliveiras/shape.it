@@ -18,8 +18,8 @@ import React, { useEffect, useState } from 'react';
 import { RiLogoutBoxRLine, RiMenuLine } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 
-import { useAuth } from '../hooks/useAuth';
-import { supabase } from '../services/supabase';
+import { useAuth } from 'hooks/useAuth';
+import { supabase } from 'services/supabase';
 
 type LoggedUserType = {
   name?: string;
