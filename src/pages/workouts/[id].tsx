@@ -39,6 +39,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
 import { Exercice } from 'components/Exercice';
+import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { Input } from 'components/input';
 import { useAuth } from 'hooks/useAuth';
@@ -455,6 +456,8 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
             )}
         </Flex>
       </Flex>
+
+      <Footer />
     </>
   );
 }

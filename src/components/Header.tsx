@@ -123,6 +123,7 @@ export function Header() {
                 icon={<RiMenuLine />}
                 variant="ghost"
                 colorScheme="green"
+                display={{ base: 'none', md: 'flex' }}
               />
             </Tooltip>
 
@@ -147,6 +148,7 @@ export function Header() {
               variant="ghost"
               colorScheme="green"
               onClick={() => handleLogout()}
+              display={{ base: 'none', md: 'flex' }}
             />
           </Tooltip>
         </HStack>
