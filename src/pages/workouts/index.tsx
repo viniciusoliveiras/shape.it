@@ -7,6 +7,7 @@ import Router from 'next/router';
 import React, { useEffect, useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
+import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { Workout } from 'components/Workout';
 import { WorkoutGrid } from 'components/WorkoutGrid';
@@ -58,6 +59,7 @@ export default function Workouts() {
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
         mb={{ base: '8', lg: '10', xl: '0' }}
         mt={{ base: '24', md: '28', lg: '32' }}
+        h="100%"
       >
         {workouts?.length === 0 && !loading && (
           <Flex flexDirection="column" align="center" flex="1">
@@ -106,6 +108,8 @@ export default function Workouts() {
           </WorkoutGrid>
         )}
       </Flex>
+
+      <Footer />
     </>
   );
 }
