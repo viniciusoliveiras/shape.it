@@ -17,6 +17,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
+import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { Input } from 'components/input';
 import { supabase } from 'services/supabase';
@@ -156,6 +157,8 @@ export default function EditWorkout({ workout }: EditWorkoutProps) {
           </Flex>
         </Flex>
       </Flex>
+
+      <Footer />
     </>
   );
 }
