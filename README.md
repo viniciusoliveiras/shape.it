@@ -6,20 +6,24 @@
 
 ## How to run
 
+</br >
+
+Clone this repository
 ```bash
+git clone https://github.com/viniciusoliveiras/shape.it.git
+```
 
-# Clone this repository
-$ git clone https://github.com/viniciusoliveiras/shape.it.git
+ Access the project folder on your terminal/cmd
+```bash
+cd shape.it
+```
 
-# Access the project folder on your terminal/cmd
-$ cd shape.it
+Install the dependencies
+```bash
+ yarn
+```
 
-# Install the dependencies
-$ yarn
-
-# Run the application
-$ yarn dev
-
-# Open http://localhost:3000 on your browser to see the app running
-
+Run the application
+```bash
+yarn dev
 ```
