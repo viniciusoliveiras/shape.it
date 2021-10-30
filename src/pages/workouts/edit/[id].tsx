@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define */
+/* eslint-disable no-param-reassign */
 import {
   Flex,
   FormControl,
@@ -9,70 +9,75 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import Router from 'next/router';
-import React from 'react';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { Input } from 'components/input';
-import { useAuth } from 'hooks/useAuth';
 import { supabase } from 'services/supabase';
+import { IWorkout } from 'utils/types';
 
-interface WorkoutFormData {
-  name: string;
-  description?: string;
+interface EditWorkoutProps {
+  workout: IWorkout;
 }
 
-const schema = yup.object().shape({
-  name: yup.string().required('Campo obrigatório'),
+interface EditWorkoutData {
+  name: string | undefined;
+  description: string | undefined;
+}
+
+const schema = yup.object({
+  name: yup.string(),
   description: yup.string().max(150, 'Máximo de 150 caracteres'),
 });
 
-export default function NewWorkout() {
+export default function EditWorkout({ workout }: EditWorkoutProps) {
+  const router = useRouter();
+  const [isSending, setIsSending] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-  } = useForm<WorkoutFormData>({
+  } = useForm<EditWorkoutData>({
     resolver: yupResolver(schema),
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+  const editWorkout: SubmitHandler<EditWorkoutData> = async values => {
+    setIsSending(true);
 
-  const createWorkout: SubmitHandler<WorkoutFormData> = async values => {
-    setIsLoading(true);
+    if (values.name?.trim() === '') {
+      values.name = workout.nome;
+    }
 
-    await supabase.from('treino').insert([
-      {
-        id: uuidv4(),
+    if (values.description?.trim() === '') {
+      values.description = workout.descricao;
+    }
+
+    const { data } = await supabase
+      .from('treino')
+      .update({
         nome: values.name,
         descricao: values.description,
-        usuario: user?.id,
-      },
-    ]);
+      })
+      .eq('id', workout.id)
+      .eq('usuario', workout.usuario);
 
-    setIsLoading(false);
+    if (data) {
+      router.push(`/workouts/${workout.id}`);
 
-    reset();
+      toast.success('Treino editado');
+    }
 
-    Router.push('/workouts');
-
-    toast.success('Treino criado');
+    setIsSending(false);
   };
 
-  async function handleCancel() {
-    reset();
-    Router.push('/workouts');
-    reset();
-  }
   return (
     <>
       <Head>
@@ -90,7 +95,7 @@ export default function NewWorkout() {
         flexDirection="column"
       >
         <Heading fontSize="3xl" mb="6" userSelect="none">
-          Criar treino
+          Editar treino
         </Heading>
 
         <Flex
@@ -100,11 +105,12 @@ export default function NewWorkout() {
           bgColor="gray.700"
           p="6"
           borderRadius="md"
-          onSubmit={handleSubmit(createWorkout)}
+          onSubmit={handleSubmit(editWorkout)}
         >
           <Input
             {...register('name')}
             label="Nome do treino"
+            placeholder={workout.nome}
             error={errors.name}
           />
 
@@ -118,6 +124,7 @@ export default function NewWorkout() {
               minH="3xs"
               maxH="2xs"
               p="4"
+              placeholder={workout.descricao}
               size="lg"
             />
 
@@ -129,7 +136,8 @@ export default function NewWorkout() {
               mr="5"
               colorScheme="gray"
               _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
-              onClick={() => handleCancel()}
+              onClick={() => router.push(`/workouts/${router.query.id}`)}
+              disabled={isSending}
             >
               Cancelar
             </Button>
@@ -137,7 +145,8 @@ export default function NewWorkout() {
               colorScheme="green"
               _hover={{ transition: 0.2, filter: 'brightness(0.9)' }}
               type="submit"
-              isLoading={isLoading}
+              isLoading={isSending}
+              disabled={isSending}
             >
               Salvar
             </Button>
@@ -149,3 +158,22 @@ export default function NewWorkout() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  if (ctx.params) {
+    const { id } = ctx.params;
+
+    const { data: workout } = await supabase
+      .from<IWorkout>('treino')
+      .select('*')
+      .eq('id', id?.toString() || '');
+
+    return {
+      props: { workout: workout && workout[0] },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

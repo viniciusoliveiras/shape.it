@@ -4,41 +4,58 @@ import { Flex, Image, Text } from '@chakra-ui/react';
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Router from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PulseLoader from 'react-spinners/PulseLoader';
 
-import { AlertConfirm } from '../../components/AlertConfirm';
-import { Header } from '../../components/Header';
-import { Workout } from '../../components/Workout';
-import { WorkoutGrid } from '../../components/WorkoutGrid';
-import { useAuth } from '../../hooks/useAuth';
+import { Footer } from 'components/Footer';
+import { Header } from 'components/Header';
+import { Workout } from 'components/Workout';
+import { WorkoutGrid } from 'components/WorkoutGrid';
+import { useAuth } from 'hooks/useAuth';
+import { supabase } from 'services/supabase';
+import { IWorkout } from 'utils/types';
 
 export default function Workouts() {
-  const [workouts, setWorkouts] = useState<string>();
-  const { loading } = useAuth();
+  const [workouts, setWorkouts] = useState<IWorkout[]>();
+  const { loading, user } = useAuth();
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await supabase
+        .from<IWorkout>('treino')
+        .select('*')
+        .eq('usuario', user?.id);
+
+      if (data) {
+        setWorkouts(data);
+      }
+    }
+
+    fetchData();
+  }, [user?.id]);
 
   const override = css`
     display: block;
     margin: 0 auto;
-    border-color: red;
   `;
 
   return (
     <>
       <Head>
         <title>shape.it</title>
-      </Head>
 
-      <AlertConfirm setWorkouts={setWorkouts} />
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
 
       <Header />
 
       <Flex
         mx={{ base: '6', md: '8', lg: '12', xl: '24' }}
-        mb={{ base: '8', lg: '10', xl: '0' }}
+        mb={{ base: '24', md: '8', lg: '10', xl: '0' }}
         mt={{ base: '24', md: '28', lg: '32' }}
+        h="100%"
       >
-        {!workouts && !loading && (
+        {workouts?.length === 0 && !loading && (
           <Flex flexDirection="column" align="center" flex="1">
             <Image
               src="/images/weightlifting.png"
@@ -54,7 +71,7 @@ export default function Workouts() {
           </Flex>
         )}
 
-        {!workouts && loading && (
+        {workouts?.length === 0 && loading && (
           <PulseLoader
             color="#eba417"
             loading={loading}
@@ -72,35 +89,21 @@ export default function Workouts() {
           />
         )}
 
-        {workouts && !loading && (
+        {workouts && workouts?.length > 0 && !loading && (
           <WorkoutGrid>
-            <Workout
-              title="Série A"
-              exerciseNumber={8}
-              description="Pellentesque lorem nulla, sollicitudin sed nulla vel, porttitor consequat purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi."
-              handleClick={() => Router.push('/workouts/serie-a')}
-            />
-
-            <Workout
-              title="Série B"
-              exerciseNumber={6}
-              description="Maecenas sit amet eros maximus neque varius aliquet nec a enim. Cras viverra erat a quam pretium pellentesque. Mauris vel magna quis sem ultricies consequat."
-            />
-
-            <Workout
-              title="Série C"
-              exerciseNumber={10}
-              description="Fusce efficitur enim vitae lorem suscipit, sit amet dapibus diam ultrices. Duis nec ex vel velit aliquet facilisis et cursus urna."
-            />
-
-            <Workout
-              title="Série D"
-              exerciseNumber={1}
-              description="In a est accumsan, blandit magna nec, tincidunt arcu. Aliquam pellentesque lectus in turpis congue mattis. Proin non fringilla leo, nec malesuada dui."
-            />
+            {workouts.map(singleWorkout => (
+              <Workout
+                key={singleWorkout.id}
+                nome={singleWorkout.nome}
+                descricao={singleWorkout.descricao}
+                handleClick={() => Router.push(`/workouts/${singleWorkout.id}`)}
+              />
+            ))}
           </WorkoutGrid>
         )}
       </Flex>
+
+      <Footer />
     </>
   );
 }

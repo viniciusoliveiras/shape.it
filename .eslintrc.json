@@ -9,7 +9,6 @@
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:testing-library/react",
     "plugin:prettier/recommended",
     "next",
     "next/core-web-vitals"
@@ -28,7 +27,6 @@
   "plugins": [
     "react",
     "react-hooks",
-    "testing-library",
     "@typescript-eslint",
     "prettier",
     "eslint-plugin-import-helpers"
@@ -74,6 +72,14 @@
         "groups": [
           "module",
           "/^@shared/",
+          [
+            "/^components/",
+            "/^contexts/",
+            "/^hooks/",
+            "/^services/",
+            "/^styles/",
+            "/^utils/"
+          ],
           ["parent", "sibling", "index"]
         ],
         "alphabetize": { "order": "asc", "ignoreCase": true }

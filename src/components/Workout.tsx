@@ -1,18 +1,12 @@
 import { Flex, Text } from '@chakra-ui/react';
 
-interface WorkoutProps {
-  title: string;
-  exerciseNumber: number;
-  description: string;
+import { IWorkout } from 'utils/types';
+
+interface WorkoutProps extends IWorkout {
   handleClick?: () => void;
 }
 
-export function Workout({
-  title,
-  exerciseNumber,
-  description,
-  handleClick,
-}: WorkoutProps) {
+export function Workout({ nome, descricao, handleClick }: WorkoutProps) {
   return (
     <Flex
       flexDirection="column"
@@ -29,12 +23,9 @@ export function Workout({
         <Text
           fontWeight="medium"
           fontSize={{ base: 'xl', lg: '2xl', xl: '3xl' }}
-          color="white"
+          color="green.300"
         >
-          {title}
-        </Text>
-        <Text fontSize={{ base: 'sm', lg: 'lg', xl: 'xl' }} color="blue.500">
-          {exerciseNumber} {exerciseNumber > 1 ? 'exercícios' : 'exercício'}
+          {nome}
         </Text>
       </Flex>
       <Text
@@ -45,7 +36,7 @@ export function Workout({
         fontSize={{ base: 'sm', lg: 'lg', xl: 'xl' }}
         alignSelf="center"
       >
-        {description}
+        {descricao}
       </Text>
     </Flex>
   );

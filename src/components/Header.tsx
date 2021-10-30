@@ -1,41 +1,38 @@
 /* eslint-disable no-use-before-define */
 import {
-  Box,
   Flex,
-  Grid,
   Image,
-  Text,
   IconButton,
   useBreakpointValue,
+  Text,
+  Avatar,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Tooltip,
 } from '@chakra-ui/react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
+import { destroyCookie } from 'nookies';
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
-import { RiMenuLine, RiLogoutBoxRLine, RiUser3Fill } from 'react-icons/ri';
+import { RiLogoutBoxRLine, RiMenuLine } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 
-import { useAuth } from '../hooks/useAuth';
-import { useSidebarDrawer } from '../hooks/useSidebarDrawer';
-import { supabase } from '../services/supabase';
-import { Navigation } from './Navigation';
-
-type LoggedUserType = {
-  name?: string;
-  email?: string;
-  avatar_url?: string;
-};
+import { useAuth } from 'hooks/useAuth';
+import { supabase } from 'services/supabase';
+import { ILoggedUser } from 'utils/types';
 
 export function Header() {
-  const { user, setLoading } = useAuth();
-  const { onOpen } = useSidebarDrawer();
-  const isMobile = useBreakpointValue({
-    base: true,
-    lg: false,
-  });
+  const { user } = useAuth();
+  const router = useRouter();
+
   const showFullLogo = useBreakpointValue({
     base: false,
     md: true,
   });
-  const [loggedUser, setLoggedUser] = useState<LoggedUserType>();
+
+  const [loggedUser, setLoggedUser] = useState<ILoggedUser>();
 
   useEffect(() => {
     setLoggedUser({
@@ -51,10 +48,11 @@ export function Header() {
 
   async function handleLogout() {
     try {
-      setLoading(true);
       await supabase.auth.signOut();
-      Router.push('/');
+      router.push('/');
       toast.success('Logout realizado');
+      destroyCookie(null, 'shape-it.user-id', { path: '/' });
+      destroyCookie(null, 'shape-it.access-token', { path: '/' });
     } catch (error) {
       toast.error('Erro ao realizar o logout. Tente mais tarde');
       throw error;
@@ -73,65 +71,84 @@ export function Header() {
       left="0"
       width="100%"
       zIndex="1"
-      boxShadow="rgb(18 18 20) 0px 1rem 2rem"
+      boxShadow="rgb(18 18 20) 0px 0.5rem 2rem"
     >
       {showFullLogo ? (
         <Image
           src="/images/logo.svg"
           w={{ base: '32', md: '40', lg: '48', xl: '60' }}
           alt="shape.it"
+          cursor="pointer"
+          onClick={() => router.push('/workouts')}
         />
       ) : (
-        <Image src="/images/mobile-logo.svg" w="20" alt="shape.it" />
+        <Image
+          src="/images/mobile-logo.svg"
+          w="20"
+          alt="shape.it"
+          cursor="pointer"
+          onClick={() => router.push('/workouts')}
+        />
       )}
 
-      {!isMobile && <Navigation />}
+      {loggedUser && (
+        <HStack spacing={['4', '6']} color="green.300">
+          <Flex align="center" borderRightWidth={1} borderColor="gray.700">
+            <Flex
+              flexDir="column"
+              textAlign="right"
+              fontSize="14"
+              display={{ base: 'none', md: 'flex' }}
+            >
+              <Text>{loggedUser?.name}</Text>
+              <Text color="gray.100">{loggedUser?.email}</Text>
+            </Flex>
 
-      <Grid
-        templateColumns="repeat(3, 1fr)"
-        gap={{ base: '3', md: '6', lg: '9' }}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
-        {isMobile && <Navigation />}
+            <Avatar
+              src={loggedUser?.avatar_url}
+              name={loggedUser?.name}
+              mx={['4', '6']}
+            />
+          </Flex>
 
-        <IconButton
-          border="0"
-          background="none"
-          borderRadius="6"
-          w="10"
-          h="10"
-          _hover={{
-            transition: 0.2,
-            filter: 'brightness(0.9)',
-            background: 'gray.700',
-          }}
-          onClick={handleLogout}
-          aria-label="Sair"
-          fontSize={{ base: '3xl', lg: '4xl', xl: '5xl' }}
-          icon={<RiLogoutBoxRLine />}
-        />
+          <Menu>
+            <Tooltip label="Menu" aria-label="Menu" placement="top">
+              <MenuButton
+                as={IconButton}
+                aria-label="Menu"
+                icon={<RiMenuLine />}
+                variant="ghost"
+                colorScheme="green"
+                display={{ base: 'none', md: 'flex' }}
+              />
+            </Tooltip>
 
-        {loggedUser?.avatar_url ? (
-          <Image
-            src={loggedUser?.avatar_url}
-            alt={loggedUser?.name}
-            borderRadius="full"
-            boxSize={{ base: '10', lg: '12', xl: '14' }}
-          />
-        ) : (
-          <IconButton
-            border="0"
-            background="none"
-            w="10"
-            h="10"
-            aria-label="Usuário"
-            fontSize={{ base: '3xl', lg: '4xl', xl: '5xl' }}
-            icon={<RiUser3Fill />}
-          />
-        )}
-      </Grid>
+            <MenuList>
+              <MenuItem color="white" onClick={() => router.push('/workouts')}>
+                Treinos
+              </MenuItem>
+
+              <MenuItem
+                color="white"
+                onClick={() => router.push('/new-workout')}
+              >
+                Novo treino
+              </MenuItem>
+            </MenuList>
+          </Menu>
+
+          <Tooltip label="Sair" aria-label="Sair" placement="top">
+            <IconButton
+              icon={<RiLogoutBoxRLine />}
+              aria-label="Logout"
+              variant="ghost"
+              colorScheme="green"
+              onClick={() => handleLogout()}
+              display={{ base: 'none', md: 'flex' }}
+            />
+          </Tooltip>
+        </HStack>
+      )}
     </Flex>
   );
 }

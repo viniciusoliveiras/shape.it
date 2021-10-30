@@ -12,7 +12,60 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
 
+          <meta
+            name="google-site-verification"
+            content="Ile1LY8imbARFY2R-w8o9le-mjKBCOF_etUAQ-GUi6g"
+          />
+
           <link rel="shortcut icon" href="/images/favicon.svg" />
+
+          <link rel="apple-touch-icon" href="/icons/maskable_icon_x192.png" />
+
+          <link rel="manifest" href="/manifest.json" />
+
+          <meta name="theme-color" content="#68D391" />
+
+          <meta name="title" content="shape.it" />
+
+          <meta
+            name="description"
+            content="Salve e gerencie seus treinos com facilidade."
+          />
+
+          <meta property="og:type" content="website" />
+
+          <meta
+            property="og:url"
+            content="https://shape-it-preview.vercel.app/"
+          />
+
+          <meta property="og:title" content="shape.it" />
+
+          <meta
+            property="og:description"
+            content="Salve e gerencie seus treinos com facilidade."
+          />
+
+          <meta property="og:image" content="https://i.imgur.com/CLHSlkt.png" />
+
+          <meta property="twitter:card" content="summary_large_image" />
+
+          <meta
+            property="twitter:url"
+            content="https://shape-it-preview.vercel.app/"
+          />
+
+          <meta property="twitter:title" content="shape.it" />
+
+          <meta
+            property="twitter:description"
+            content="Salve e gerencie seus treinos com facilidade."
+          />
+
+          <meta
+            property="twitter:image"
+            content="https://i.imgur.com/CLHSlkt.png"
+          />
         </Head>
         <body>
           <Main />
