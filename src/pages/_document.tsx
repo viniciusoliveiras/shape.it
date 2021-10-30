@@ -17,6 +17,12 @@ export default class MyDocument extends Document {
             content="Ile1LY8imbARFY2R-w8o9le-mjKBCOF_etUAQ-GUi6g"
           />
 
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8654110173038579"
+            crossOrigin="anonymous"
+          />
+
           <link rel="shortcut icon" href="/images/favicon.svg" />
 
           <link rel="apple-touch-icon" href="/icons/maskable_icon_x192.png" />
