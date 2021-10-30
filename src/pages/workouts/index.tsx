@@ -13,22 +13,16 @@ import { Workout } from 'components/Workout';
 import { WorkoutGrid } from 'components/WorkoutGrid';
 import { useAuth } from 'hooks/useAuth';
 import { supabase } from 'services/supabase';
-
-type WorkoutData = {
-  descricao: string;
-  id: number;
-  nome: string;
-  usuario: string;
-};
+import { IWorkout } from 'utils/types';
 
 export default function Workouts() {
-  const [workouts, setWorkouts] = useState<WorkoutData[]>();
+  const [workouts, setWorkouts] = useState<IWorkout[]>();
   const { loading, user } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
       const { data } = await supabase
-        .from('treino')
+        .from<IWorkout>('treino')
         .select('*')
         .eq('usuario', user?.id);
 
@@ -100,8 +94,8 @@ export default function Workouts() {
             {workouts.map(singleWorkout => (
               <Workout
                 key={singleWorkout.id}
-                title={singleWorkout.nome}
-                description={singleWorkout.descricao}
+                nome={singleWorkout.nome}
+                descricao={singleWorkout.descricao}
                 handleClick={() => Router.push(`/workouts/${singleWorkout.id}`)}
               />
             ))}

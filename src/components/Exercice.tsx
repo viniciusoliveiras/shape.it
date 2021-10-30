@@ -13,18 +13,11 @@ import {
 import React from 'react';
 import { MdFitnessCenter, MdDelete, MdEdit, MdMoreHoriz } from 'react-icons/md';
 
-import { useDeleteExerciceModal } from '../hooks/useDeleteExerciceModal';
-import { DeleteExerciceModal } from './DeleteExerciceModal';
+import { DeleteExerciceModal } from 'components/DeleteExerciceModal';
+import { useDeleteExerciceModal } from 'hooks/useDeleteExerciceModal';
+import { IExercice } from 'utils/types';
 
-interface ExerciceProps {
-  id: string;
-  nome: string;
-  serie: number;
-  repeticoes: string;
-  peso: number;
-}
-
-export function Exercice({ id, nome, peso, repeticoes, serie }: ExerciceProps) {
+export function Exercice({ id, nome, peso, repeticoes, serie }: IExercice) {
   const showGymIcon = useBreakpointValue({ base: true, md: false, lg: true });
 
   const { onOpen } = useDeleteExerciceModal();

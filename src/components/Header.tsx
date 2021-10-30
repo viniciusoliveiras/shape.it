@@ -21,12 +21,7 @@ import { toast } from 'react-toastify';
 
 import { useAuth } from 'hooks/useAuth';
 import { supabase } from 'services/supabase';
-
-type LoggedUserType = {
-  name?: string;
-  email?: string;
-  avatar_url?: string;
-};
+import { ILoggedUser } from 'utils/types';
 
 export function Header() {
   const { user } = useAuth();
@@ -36,7 +31,8 @@ export function Header() {
     base: false,
     md: true,
   });
-  const [loggedUser, setLoggedUser] = useState<LoggedUserType>();
+
+  const [loggedUser, setLoggedUser] = useState<ILoggedUser>();
 
   useEffect(() => {
     setLoggedUser({

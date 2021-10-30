@@ -13,7 +13,6 @@ import {
   ModalBody,
   useDisclosure,
   Stack,
-  Spinner,
   HStack,
   AlertDialog,
   AlertDialogBody,
@@ -34,6 +33,7 @@ import nookies from 'nookies';
 import React, { useEffect, useState, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
+import PuffLoader from 'react-spinners/PuffLoader';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
@@ -46,13 +46,10 @@ import { useAuth } from 'hooks/useAuth';
 import { useExercices } from 'hooks/useExercices';
 import { queryClient } from 'services/queryClient';
 import { supabase } from 'services/supabase';
-
-type Workout = {
-  nome: string;
-};
+import { IWorkout } from 'utils/types';
 
 interface SingleWorkoutProps {
-  workout: Workout[];
+  workout: IWorkout[];
 }
 
 interface CreateWorkoutData {
@@ -80,6 +77,14 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const onCloseDeleteWorkoutAlert = () => setIsDeleteWorkoutAlertOpen(false);
   const cancelRef = useRef(null);
+
+  const {
+    refetch,
+    data: exercices,
+    isLoading,
+    isFetching,
+    error,
+  } = useExercices(router.query.id?.toString());
 
   const {
     register,
@@ -117,10 +122,6 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
 
     reset();
   };
-
-  const { refetch, data, isLoading, isFetching, error } = useExercices(
-    router.query.id?.toString()
-  );
 
   useEffect(() => {
     refetch();
@@ -177,17 +178,7 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
                 fontSize={{ base: '2xl', lg: '3xl', xl: '4xl' }}
                 fontWeight="bold"
               >
-                {workout[0].nome}{' '}
-                {isLoading ||
-                  (isFetching && (
-                    <Spinner
-                      thickness="0.2rem"
-                      speed="1s"
-                      color="green.500"
-                      size="md"
-                      ml="4"
-                    />
-                  ))}
+                {workout[0].nome}
               </Text>
 
               <Menu>
@@ -389,34 +380,42 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
             </ModalContent>
           </Modal>
 
-          {!isLoading &&
-            !isFetching &&
-            data &&
-            data.exercices &&
-            data.exercices?.length > 0 && (
-              <Grid
-                templateColumns={{
-                  base: 'repeat(1, 1fr)',
-                  md: 'repeat(2, 1fr)',
-                }}
-                gap={{ base: '4', lg: '6', xl: '10' }}
-                width="100%"
-                mt="10"
-              >
-                {data &&
-                  data.exercices &&
-                  data.exercices.map(singleExercice => (
-                    <Exercice
-                      key={singleExercice.id}
-                      id={singleExercice.id}
-                      nome={singleExercice.nome}
-                      peso={singleExercice.peso}
-                      repeticoes={singleExercice.repeticoes}
-                      serie={singleExercice.serie}
-                    />
-                  ))}
-              </Grid>
-            )}
+          {!isFetching && exercices && exercices?.length > 0 && (
+            <Grid
+              templateColumns={{
+                base: 'repeat(1, 1fr)',
+                md: 'repeat(2, 1fr)',
+              }}
+              gap={{ base: '4', lg: '6', xl: '10' }}
+              width="100%"
+              mt="10"
+            >
+              {exercices &&
+                exercices.map(singleExercice => (
+                  <Exercice
+                    key={singleExercice.id}
+                    id={singleExercice.id}
+                    nome={singleExercice.nome}
+                    peso={singleExercice.peso}
+                    repeticoes={singleExercice.repeticoes}
+                    serie={singleExercice.serie}
+                  />
+                ))}
+            </Grid>
+          )}
+
+          {isFetching && (
+            <Flex
+              align="center"
+              justify="center"
+              flex="1"
+              mt="20"
+              w="100%"
+              h="70vh"
+            >
+              <PuffLoader loading={isFetching} color="#68D391" size={150} />
+            </Flex>
+          )}
 
           {error && !isLoading && !isFetching && (
             <Flex flexDirection="column" align="center" flex="1" mt="20">
@@ -432,9 +431,8 @@ export default function SingleWorkout({ workout }: SingleWorkoutProps) {
           {!isLoading &&
             !isFetching &&
             !error &&
-            data &&
-            data.exercices &&
-            data.exercices?.length === 0 && (
+            exercices &&
+            exercices?.length === 0 && (
               <Flex flexDirection="column" align="center" flex="1" mt="20">
                 <Text fontWeight="bold" fontSize="xl" lineHeight="7" mt="8">
                   Nenhum exercício criado
@@ -468,13 +466,12 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     const cookies = nookies.get(ctx);
     const { id } = ctx.params;
 
-    const workoutResponse = await supabase
-      .from('treino')
-      .select('nome')
-      .eq('id', id)
+    const { data: workout } = await supabase
+      .from<IWorkout>('treino')
+      .select('*')
+      .eq('id', id?.toString() || '')
       .eq('usuario', cookies['shape-it.user-id']);
 
-    const workout = workoutResponse?.data;
     return {
       props: { workout },
     };

@@ -16,8 +16,8 @@ import { queryClient } from '../services/queryClient';
 import { supabase } from '../services/supabase';
 
 interface DeleteExerciceModalProps {
-  id: string;
-  exerciceName: string;
+  id?: string;
+  exerciceName?: string;
 }
 
 export function DeleteExerciceModal({

@@ -21,19 +21,15 @@ import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { Input } from 'components/input';
 import { supabase } from 'services/supabase';
+import { IWorkout } from 'utils/types';
 
 interface EditWorkoutProps {
-  workout: {
-    id: string;
-    nome: string;
-    descricao: string;
-    usuario: string;
-  };
+  workout: IWorkout;
 }
 
 interface EditWorkoutData {
-  name: string;
-  description: string;
+  name: string | undefined;
+  description: string | undefined;
 }
 
 const schema = yup.object({
@@ -56,11 +52,11 @@ export default function EditWorkout({ workout }: EditWorkoutProps) {
   const editWorkout: SubmitHandler<EditWorkoutData> = async values => {
     setIsSending(true);
 
-    if (values.name.trim() === '') {
+    if (values.name?.trim() === '') {
       values.name = workout.nome;
     }
 
-    if (values.description.trim() === '') {
+    if (values.description?.trim() === '') {
       values.description = workout.descricao;
     }
 
@@ -167,15 +163,13 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   if (ctx.params) {
     const { id } = ctx.params;
 
-    const workoutResponse = await supabase
-      .from('treino')
+    const { data: workout } = await supabase
+      .from<IWorkout>('treino')
       .select('*')
-      .eq('id', id);
-
-    const workout = workoutResponse?.data && workoutResponse?.data[0];
+      .eq('id', id?.toString() || '');
 
     return {
-      props: { workout },
+      props: { workout: workout && workout[0] },
     };
   }
 

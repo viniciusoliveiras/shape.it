@@ -1,20 +1,23 @@
 import { useQuery } from 'react-query';
 
 import { supabase } from 'services/supabase';
+import { IExercice } from 'utils/types';
 
-export async function getExercices(id: string | undefined) {
+export async function getExercices(
+  id: string | undefined
+): Promise<IExercice[] | null> {
   const { data, error } = await supabase
-    .from('exercicio')
+    .from<IExercice>('exercicio')
     .select('*')
-    .eq('treino', id);
+    .eq('treino', id?.toString() || '');
 
-  const exercices = data;
+  const exercices: IExercice[] | null = data;
 
   if (error) {
     throw error;
   }
 
-  return { exercices };
+  return exercices;
 }
 
 export function useExercices(id: string | undefined) {
