@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="shape.it" title="shape.it" src=".github/logo.png" />
+  <img alt="shape.it" title="shape.it" src=".github/readme-logo.png" />
 </h1>
 
 <h4 align='center'>🚧 Under construction 🚧</h4>
@@ -9,10 +9,10 @@
 ```bash
 
 # Clone this repository
-$ git clone https://github.com/viniciusoliveiras/worldtrip.git
+$ git clone https://github.com/viniciusoliveiras/shape.it.git
 
 # Access the project folder on your terminal/cmd
-$ cd worldtrip
+$ cd shape.it
 
 # Install the dependencies
 $ yarn
@@ -23,4 +23,3 @@ $ yarn dev
 # Open http://localhost:3000 on your browser to see the app running
 
 ```
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
